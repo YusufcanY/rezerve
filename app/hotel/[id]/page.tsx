@@ -34,6 +34,7 @@ import { useEffect, useState } from 'react';
 
 export default function HotelDetail() {
   const [activeTab, setActiveTab] = useState('available-rooms');
+
   const Section = ({ children }: { children: React.ReactElement }) => {
     const [ref, entry] = useIntersectionObserver({
       threshold: 0,
@@ -45,7 +46,7 @@ export default function HotelDetail() {
     }, [entry?.isIntersecting]);
     return <section ref={ref}>{children}</section>;
   };
-  useEffect(() => console.log('activeTab :>> ', activeTab), [activeTab]);
+
   return (
     <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:px-6 lg:py-16">
       <Breadcrumb>
@@ -63,6 +64,20 @@ export default function HotelDetail() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
+      <div>
+        <h1 className="text-3xl font-black">The St. Regis Rome</h1>
+        <Button asChild variant="link" className="p-0">
+          <Link
+            href="https://www.google.com/maps/place//data=!4m2!3m1!1s0x13256cb7df8064c7:0xffc5e7bf84acf2b?sa=X&ved=1t:8290&ictx=111"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-semibold"
+          >
+            Via Vittorio Emanuele Orlando, 3, 00185 Roma RM, İtalya
+          </Link>
+        </Button>
+      </div>
+
       <div>
         <Carousel className="w-full">
           <CarouselContent>
@@ -98,39 +113,6 @@ export default function HotelDetail() {
           <CarouselNext />
         </Carousel>
       </div>
-      <Carousel className="w-full">
-        <CarouselContent>
-          <CarouselItem className="basis-1/3">
-            <img
-              alt="Hotel Exterior"
-              className="aspect-[2/1] object-cover"
-              height={600}
-              src="/placeholder.svg"
-              width={1200}
-            />
-          </CarouselItem>
-          <CarouselItem className="basis-1/3">
-            <img
-              alt="Hotel Lobby"
-              className="aspect-[2/1] object-cover"
-              height={600}
-              src="/placeholder.svg"
-              width={1200}
-            />
-          </CarouselItem>
-          <CarouselItem className="basis-1/3">
-            <img
-              alt="Hotel Amenities"
-              className="aspect-[2/1] object-cover"
-              height={600}
-              src="/placeholder.svg"
-              width={1200}
-            />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
       <Tabs value={activeTab} className="mx-auto w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="available-rooms" asChild>

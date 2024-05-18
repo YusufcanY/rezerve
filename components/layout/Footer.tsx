@@ -3,12 +3,12 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-100 py-12 dark:bg-gray-800">
+    <footer>
       <div className="container mx-auto flex flex-col items-center gap-8 px-4 md:flex-row md:justify-between">
         <div className="flex flex-col items-center gap-4 md:items-start">
-          <Link className="flex items-center gap-2" href="#">
+          <Link className="flex items-center gap-2" href="/">
             <Hotel className="h-6 w-6" />
-            <span className="text-lg font-bold">Rezerve</span>
+            <span className="text-lg font-bold tracking-tighter">Rezerve</span>
           </Link>
           <p className="max-w-[300px] text-center text-gray-500 dark:text-gray-400 md:text-left">
             Rezerve is a leading hotel reservation platform, connecting travelers with the best

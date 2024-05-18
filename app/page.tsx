@@ -12,9 +12,10 @@ import {
   Select,
 } from '@/components/ui/select';
 import Link from 'next/link';
-import { CalendarIcon, StarIcon, UserIcon } from 'lucide-react';
+import { CalendarIcon, Dices, StarIcon, UserIcon } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import moment from 'moment';
+import Image from 'next/image';
 
 const nearby = [
   {
@@ -155,7 +156,7 @@ export default function Home() {
             </div>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
-                <Link className="block" href="#">
+                <Link className="block" href="/hotel/1">
                   <img
                     alt="Hotel Image"
                     className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
@@ -184,7 +185,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
-                <Link className="block" href="#">
+                <Link className="block" href="/hotel/1">
                   <img
                     alt="Hotel Image"
                     className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
@@ -213,7 +214,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
-                <Link className="block" href="#">
+                <Link className="block" href="/hotel/1">
                   <img
                     alt="Hotel Image"
                     className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
@@ -244,7 +245,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="bg-gray-100 py-12 dark:bg-gray-800 md:py-20 lg:py-28">
+        <section className="bg-gray-100 py-12 dark:bg-gray-800 md:py-20 lg:py-28 lg:pb-48">
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-3xl space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -278,13 +279,39 @@ export default function Home() {
                           <span className="text-xs text-muted-foreground"> / night</span>
                         </span>
                         <Button size="sm" variant="outline">
-                          Book Now
+                          Explore
                         </Button>
                       </div>
                     </div>
                   </Link>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="container mx-auto -mt-12 mb-12">
+          <div className="flex overflow-hidden rounded-xl bg-primary shadow-xl">
+            <img
+              alt="Random Hotel"
+              height={400}
+              src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e7de6b121495337.60c75de17e773.jpg"
+              width={400}
+              style={{ boxShadow: '30px 0px 50px rgba(0, 0, 0, 0.1)' }}
+            />
+            <div className="flex flex-1 flex-col items-center justify-center space-y-4">
+              <h2 className="text-4xl font-bold text-white">Try Random Hotel</h2>
+              <p className="text-lg text-white/75">
+                Sometimes the best trips are unplanned. Get a random hotel to stay in.
+              </p>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-none bg-white/25 text-xl text-white"
+              >
+                <Dices className="mr-2 h-8 w-8" />
+                Roll Now
+              </Button>
             </div>
           </div>
         </section>
