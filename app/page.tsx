@@ -1,27 +1,23 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  PopoverTrigger,
-  PopoverContent,
-  Popover,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { PopoverTrigger, PopoverContent, Popover } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import {
   SelectValue,
   SelectTrigger,
   SelectItem,
   SelectContent,
   Select,
-} from "@/components/ui/select";
-import Link from "next/link";
-import { CalendarIcon, StarIcon, UserIcon } from "lucide-react";
+} from '@/components/ui/select';
+import Link from 'next/link';
+import { CalendarIcon, StarIcon, UserIcon } from 'lucide-react';
 
 export default function Home() {
   return (
     <>
       <header className="w-full bg-gray-900 py-12 md:py-20 lg:py-28">
         <div className="container px-4 md:px-6">
-          <div className="mx-auto max-w-3xl text-center space-y-4">
+          <div className="mx-auto max-w-3xl space-y-4 text-center">
             <h1 className="text-3xl font-bold tracking-tighter text-gray-50 sm:text-4xl md:text-5xl lg:text-6xl">
               Find your perfect stay
             </h1>
@@ -30,7 +26,7 @@ export default function Home() {
             </p>
             <form className="mt-6 flex items-center rounded-lg bg-white p-1 shadow-lg dark:bg-gray-800">
               <Input
-                className="flex-1 focus:border-none bg-transparent px-4 py-2 text-gray-900 focus:outline-none dark:text-gray-50 focus:ring-0"
+                className="flex-1 bg-transparent px-4 py-2 text-gray-900 focus:border-none focus:outline-none focus:ring-0 dark:text-gray-50"
                 placeholder="Search by location"
                 type="text"
               />
@@ -44,7 +40,7 @@ export default function Home() {
                     <span className="ml-2">Dates</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="p-0 max-w-[276px]">
+                <PopoverContent className="max-w-[276px] p-0">
                   <Calendar />
                 </PopoverContent>
               </Popover>
@@ -58,7 +54,7 @@ export default function Home() {
                     <span className="ml-2">Guests</span>
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="p-0 max-w-[276px]">
+                <PopoverContent className="max-w-[276px] p-0">
                   <Select defaultValue="2">
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select guests" />
@@ -86,11 +82,11 @@ export default function Home() {
       <main>
         <section className="py-12 md:py-20 lg:py-28">
           <div className="container px-4 md:px-6">
-            <div className="mx-auto max-w-3xl text-center space-y-4">
+            <div className="mx-auto max-w-3xl space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Popular Hotels
               </h2>
-              <p className="text-gray-500 md:text-xl dark:text-gray-400">
+              <p className="text-gray-500 dark:text-gray-400 md:text-xl">
                 Discover the best hotels for your next trip.
               </p>
             </div>
@@ -106,9 +102,7 @@ export default function Home() {
                   />
                   <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">
-                        The St. Regis Rome
-                      </h3>
+                      <h3 className="text-lg font-semibold">The St. Regis Rome</h3>
                       <div className="flex items-center gap-1">
                         <StarIcon className="h-5 w-5 fill-foreground" />
                         <span className="text-sm font-medium">4.8</span>
@@ -137,9 +131,7 @@ export default function Home() {
                   />
                   <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">
-                        The Ritz-Carlton, Grand Cayman
-                      </h3>
+                      <h3 className="text-lg font-semibold">The Ritz-Carlton, Grand Cayman</h3>
                       <div className="flex items-center gap-1">
                         <StarIcon className="h-5 w-5 fill-foreground" />
                         <span className="text-sm font-medium">4.7</span>
@@ -168,9 +160,7 @@ export default function Home() {
                   />
                   <div className="p-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">
-                        The St. Regis Bal Harbour Resort
-                      </h3>
+                      <h3 className="text-lg font-semibold">The St. Regis Bal Harbour Resort</h3>
                       <div className="flex items-center gap-1">
                         <StarIcon className="h-5 w-5 fill-foreground" />
                         <span className="text-sm font-medium">4.9</span>
@@ -191,13 +181,13 @@ export default function Home() {
             </div>
           </div>
         </section>
-        <section className="py-12 md:py-20 lg:py-28 bg-gray-100 dark:bg-gray-800">
+        <section className="bg-gray-100 py-12 dark:bg-gray-800 md:py-20 lg:py-28">
           <div className="container px-4 md:px-6">
-            <div className="mx-auto max-w-3xl text-center space-y-4">
+            <div className="mx-auto max-w-3xl space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Explore Nearby
               </h2>
-              <p className="text-gray-500 md:text-xl dark:text-gray-400">
+              <p className="text-gray-500 dark:text-gray-400 md:text-xl">
                 Discover hotels and attractions near your location.
               </p>
             </div>
@@ -211,20 +201,18 @@ export default function Home() {
                       height={400}
                       src="/placeholder.svg"
                       style={{
-                        aspectRatio: "400/400",
-                        objectFit: "cover",
+                        aspectRatio: '400/400',
+                        objectFit: 'cover',
                       }}
                       width={400}
                     />
-                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                    <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
                       <StarIcon className="h-4 w-4 fill-foreground" />
                       <span>4.6</span>
                     </div>
                   </div>
                   <div className="flex-1 p-4">
-                    <h3 className="text-lg font-semibold">
-                      The Inn at the Roman Forum
-                    </h3>
+                    <h3 className="text-lg font-semibold">The Inn at the Roman Forum</h3>
                     <p />
                     <div className="mt-4 flex items-center justify-between">
                       <span className="text-lg font-bold">$300</span>
@@ -244,12 +232,12 @@ export default function Home() {
                       height={400}
                       src="/placeholder.svg"
                       style={{
-                        aspectRatio: "400/400",
-                        objectFit: "cover",
+                        aspectRatio: '400/400',
+                        objectFit: 'cover',
                       }}
                       width={400}
                     />
-                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                    <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
                       <StarIcon className="h-4 w-4 fill-foreground" />
                       <span>4.4</span>
                     </div>
@@ -277,20 +265,18 @@ export default function Home() {
                       height={400}
                       src="/placeholder.svg"
                       style={{
-                        aspectRatio: "400/400",
-                        objectFit: "cover",
+                        aspectRatio: '400/400',
+                        objectFit: 'cover',
                       }}
                       width={400}
                     />
-                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                    <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
                       <StarIcon className="h-4 w-4 fill-foreground" />
                       <span>4.7</span>
                     </div>
                   </div>
                   <div className="flex-1 p-4">
-                    <h3 className="text-lg font-semibold">
-                      The St. Regis Florence
-                    </h3>
+                    <h3 className="text-lg font-semibold">The St. Regis Florence</h3>
                     <p className="mt-2 text-gray-500 dark:text-gray-400">
                       Boutique hotel with a rooftop bar.
                     </p>
@@ -312,20 +298,18 @@ export default function Home() {
                       height={400}
                       src="/placeholder.svg"
                       style={{
-                        aspectRatio: "400/400",
-                        objectFit: "cover",
+                        aspectRatio: '400/400',
+                        objectFit: 'cover',
                       }}
                       width={400}
                     />
-                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                    <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
                       <StarIcon className="h-4 w-4 fill-foreground" />
                       <span>4.5</span>
                     </div>
                   </div>
                   <div className="flex-1 p-4">
-                    <h3 className="text-lg font-semibold">
-                      Hyatt Regency Grand Cypress Resort
-                    </h3>
+                    <h3 className="text-lg font-semibold">Hyatt Regency Grand Cypress Resort</h3>
                   </div>
                 </Link>
               </div>
