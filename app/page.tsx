@@ -1,113 +1,338 @@
-import Image from "next/image";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  PopoverTrigger,
+  PopoverContent,
+  Popover,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import {
+  SelectValue,
+  SelectTrigger,
+  SelectItem,
+  SelectContent,
+  Select,
+} from "@/components/ui/select";
+import Link from "next/link";
+import { CalendarIcon, StarIcon, UserIcon } from "lucide-react";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <>
+      <header className="w-full bg-gray-900 py-12 md:py-20 lg:py-28">
+        <div className="container px-4 md:px-6">
+          <div className="mx-auto max-w-3xl text-center space-y-4">
+            <h1 className="text-3xl font-bold tracking-tighter text-gray-50 sm:text-4xl md:text-5xl lg:text-6xl">
+              Find your perfect stay
+            </h1>
+            <p className="text-gray-400 md:text-xl">
+              Search for hotels, resorts, and more across the globe.
+            </p>
+            <form className="mt-6 flex items-center rounded-lg bg-white p-1 shadow-lg dark:bg-gray-800">
+              <Input
+                className="flex-1 focus:border-none bg-transparent px-4 py-2 text-gray-900 focus:outline-none dark:text-gray-50 focus:ring-0"
+                placeholder="Search by location"
+                type="text"
+              />
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                    variant="outline"
+                  >
+                    <CalendarIcon className="h-5 w-5" />
+                    <span className="ml-2">Dates</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0 max-w-[276px]">
+                  <Calendar />
+                </PopoverContent>
+              </Popover>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                    variant="outline"
+                  >
+                    <UserIcon className="h-5 w-5" />
+                    <span className="ml-2">Guests</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0 max-w-[276px]">
+                  <Select defaultValue="2">
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select guests" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">1 guest</SelectItem>
+                      <SelectItem value="2">2 guests</SelectItem>
+                      <SelectItem value="3">3 guests</SelectItem>
+                      <SelectItem value="4">4 guests</SelectItem>
+                      <SelectItem value="5">5 guests</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </PopoverContent>
+              </Popover>
+              <Button
+                className="ml-2 flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-400 dark:focus:ring-gray-300"
+                type="submit"
+              >
+                Search
+              </Button>
+            </form>
+          </div>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </header>
+      <main>
+        <section className="py-12 md:py-20 lg:py-28">
+          <div className="container px-4 md:px-6">
+            <div className="mx-auto max-w-3xl text-center space-y-4">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Popular Hotels
+              </h2>
+              <p className="text-gray-500 md:text-xl dark:text-gray-400">
+                Discover the best hotels for your next trip.
+              </p>
+            </div>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="block" href="#">
+                  <img
+                    alt="Hotel Image"
+                    className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
+                    height={400}
+                    src="/placeholder.svg"
+                    width={600}
+                  />
+                  <div className="p-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">
+                        The St. Regis Rome
+                      </h3>
+                      <div className="flex items-center gap-1">
+                        <StarIcon className="h-5 w-5 fill-foreground" />
+                        <span className="text-sm font-medium">4.8</span>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      Renowned luxury hotel with a lavish spa.
+                    </p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold">$400</span>
+                      <Button size="sm" variant="outline">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="block" href="#">
+                  <img
+                    alt="Hotel Image"
+                    className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
+                    height={400}
+                    src="/placeholder.svg"
+                    width={600}
+                  />
+                  <div className="p-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">
+                        The Ritz-Carlton, Grand Cayman
+                      </h3>
+                      <div className="flex items-center gap-1">
+                        <StarIcon className="h-5 w-5 fill-foreground" />
+                        <span className="text-sm font-medium">4.7</span>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      Luxury resort with a golf course and spa.
+                    </p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold">$600</span>
+                      <Button size="sm" variant="outline">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="block" href="#">
+                  <img
+                    alt="Hotel Image"
+                    className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
+                    height={400}
+                    src="/placeholder.svg"
+                    width={600}
+                  />
+                  <div className="p-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">
+                        The St. Regis Bal Harbour Resort
+                      </h3>
+                      <div className="flex items-center gap-1">
+                        <StarIcon className="h-5 w-5 fill-foreground" />
+                        <span className="text-sm font-medium">4.9</span>
+                      </div>
+                    </div>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      Elegant beachfront resort with a spa.
+                    </p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold">$800</span>
+                      <Button size="sm" variant="outline">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section className="py-12 md:py-20 lg:py-28 bg-gray-100 dark:bg-gray-800">
+          <div className="container px-4 md:px-6">
+            <div className="mx-auto max-w-3xl text-center space-y-4">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Explore Nearby
+              </h2>
+              <p className="text-gray-500 md:text-xl dark:text-gray-400">
+                Discover hotels and attractions near your location.
+              </p>
+            </div>
+            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="flex flex-row" href="#">
+                  <div className="relative h-48 w-48 overflow-hidden rounded-l-lg">
+                    <img
+                      alt="Hotel Image"
+                      className="h-full w-full object-cover transition-all group-hover:scale-105"
+                      height={400}
+                      src="/placeholder.svg"
+                      style={{
+                        aspectRatio: "400/400",
+                        objectFit: "cover",
+                      }}
+                      width={400}
+                    />
+                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                      <StarIcon className="h-4 w-4 fill-foreground" />
+                      <span>4.6</span>
+                    </div>
+                  </div>
+                  <div className="flex-1 p-4">
+                    <h3 className="text-lg font-semibold">
+                      The Inn at the Roman Forum
+                    </h3>
+                    <p />
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold">$300</span>
+                      <Button className="w-full" size="sm" variant="outline">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="flex flex-row" href="#">
+                  <div className="relative h-48 w-48 overflow-hidden rounded-l-lg">
+                    <img
+                      alt="Hotel Image"
+                      className="h-full w-full object-cover transition-all group-hover:scale-105"
+                      height={400}
+                      src="/placeholder.svg"
+                      style={{
+                        aspectRatio: "400/400",
+                        objectFit: "cover",
+                      }}
+                      width={400}
+                    />
+                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                      <StarIcon className="h-4 w-4 fill-foreground" />
+                      <span>4.4</span>
+                    </div>
+                  </div>
+                  <div className="flex-1 p-4">
+                    <h3 className="text-lg font-semibold">Hotel Roma</h3>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      Vibrant property with free breakfast.
+                    </p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold">$150</span>
+                      <Button size="sm" variant="outline">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="flex flex-row" href="#">
+                  <div className="relative h-48 w-48 overflow-hidden rounded-l-lg">
+                    <img
+                      alt="Hotel Image"
+                      className="h-full w-full object-cover transition-all group-hover:scale-105"
+                      height={400}
+                      src="/placeholder.svg"
+                      style={{
+                        aspectRatio: "400/400",
+                        objectFit: "cover",
+                      }}
+                      width={400}
+                    />
+                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                      <StarIcon className="h-4 w-4 fill-foreground" />
+                      <span>4.7</span>
+                    </div>
+                  </div>
+                  <div className="flex-1 p-4">
+                    <h3 className="text-lg font-semibold">
+                      The St. Regis Florence
+                    </h3>
+                    <p className="mt-2 text-gray-500 dark:text-gray-400">
+                      Boutique hotel with a rooftop bar.
+                    </p>
+                    <div className="mt-4 flex items-center justify-between">
+                      <span className="text-lg font-bold">$400</span>
+                      <Button size="sm" variant="outline">
+                        Book Now
+                      </Button>
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              <div className="rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
+                <Link className="flex flex-row" href="#">
+                  <div className="relative h-48 w-48 overflow-hidden rounded-l-lg">
+                    <img
+                      alt="Hotel Image"
+                      className="h-full w-full object-cover transition-all group-hover:scale-105"
+                      height={400}
+                      src="/placeholder.svg"
+                      style={{
+                        aspectRatio: "400/400",
+                        objectFit: "cover",
+                      }}
+                      width={400}
+                    />
+                    <div className="absolute top-4 right-4 flex items-center gap-1 rounded-full bg-white px-3 py-1 text-sm font-medium shadow-md dark:bg-gray-950">
+                      <StarIcon className="h-4 w-4 fill-foreground" />
+                      <span>4.5</span>
+                    </div>
+                  </div>
+                  <div className="flex-1 p-4">
+                    <h3 className="text-lg font-semibold">
+                      Hyatt Regency Grand Cypress Resort
+                    </h3>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
