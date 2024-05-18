@@ -273,8 +273,9 @@ export default function Home() {
                         <p className="text-sm text-muted-foreground">{item.distance}-hours drive</p>
                       </div>
                       <div className="flex flex-col">
-                        <span className="text-lg font-bold">
+                        <span className="font-bold">
                           ₺{item.min_price} - ₺{item.max_price}
+                          <span className="text-xs text-muted-foreground"> / night</span>
                         </span>
                         <Button size="sm" variant="outline">
                           Book Now
