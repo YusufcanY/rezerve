@@ -12,10 +12,12 @@ import { Button } from '@/components/ui/button';
 import {
   BathIcon,
   CoffeeIcon,
-  MapIcon,
+  FlowerIcon,
   ShipWheelIcon,
   SofaIcon,
+  SquareParkingIcon,
   TvIcon,
+  Utensils,
   ViewIcon,
   WifiIcon,
 } from 'lucide-react';
@@ -31,9 +33,20 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { useIntersectionObserver } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 export default function HotelDetail() {
-  const [activeTab, setActiveTab] = useState('available-rooms');
+  const [activeTab, setActiveTab] = useState('details');
 
   const Section = ({ children }: { children: React.ReactElement }) => {
     const [ref, entry] = useIntersectionObserver({
@@ -48,7 +61,7 @@ export default function HotelDetail() {
   };
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:px-6 lg:py-16">
+    <div className="mx-auto grid max-w-6xl gap-4 px-4 py-12 md:px-6 lg:py-8">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -113,16 +126,118 @@ export default function HotelDetail() {
           <CarouselNext />
         </Carousel>
       </div>
-      <Tabs value={activeTab} className="mx-auto w-[400px]">
+      <Tabs value={activeTab} className="mx-auto w-full max-w-2xl">
         <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="details" asChild>
+            <Link href="#details">Details</Link>
+          </TabsTrigger>
           <TabsTrigger value="available-rooms" asChild>
             <Link href="#available-rooms">Available Rooms</Link>
           </TabsTrigger>
-          <TabsTrigger value="things-to-do">
-            <Link href="#things-to-do">Things to Do</Link>
-          </TabsTrigger>
         </TabsList>
       </Tabs>
+      <Section>
+        <div id="details">
+          <section className="mt-8 grid gap-8 md:grid-cols-6">
+            <div className="col-span-4">
+              <h2 className="text-3xl font-bold">Details</h2>
+              <p className="mt-2 text-gray-500">
+                Experience the ultimate in mountain luxury at our stunning resort. Nestled in the
+                heart of the Rockies, our hotel offers breathtaking views, world-class amenities,
+                and exceptional service.
+              </p>
+              <span className="text-sm text-muted-foreground">
+                2 guests · 1 bedroom · 1 bed · 1 bath
+              </span>
+              <div className="mt-6 grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-2">
+                  <WifiIcon className="h-6 w-6 text-gray-500" />
+                  <span>Free WiFi</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <SquareParkingIcon className="h-6 w-6 text-gray-500" />
+                  <span>Free Parking</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FlowerIcon className="h-6 w-6 text-gray-500" />
+                  <span>Spa & Wellness</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Utensils className="h-6 w-6 text-gray-500" />
+                  <span>On-site Dining</span>
+                </div>
+              </div>
+            </div>
+            <div className="col-span-2">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Book Your Stay</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <form className="grid gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="check-in">Check-in</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button className="h-auto w-full flex-col items-start" variant="outline">
+                            <span className="text-[0.65rem] font-semibold uppercase">Check in</span>
+                            <span className="font-normal">4/2/2024</span>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="max-w-[276px] p-0">
+                          <Calendar />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="check-out">Check-out</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button className="h-auto w-full flex-col items-start" variant="outline">
+                            <span className="text-[0.65rem] font-semibold uppercase">
+                              Check out
+                            </span>
+                            <span className="font-normal">10/2/2024</span>
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="max-w-[276px] p-0">
+                          <Calendar />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="guests">Guests</Label>
+                      <Select>
+                        <SelectTrigger className="h-auto">
+                          <SelectValue
+                            placeholder={
+                              <div className="flex flex-col items-start">
+                                <span className="text-[0.65rem] font-semibold uppercase">
+                                  Guests
+                                </span>
+                                <span className="font-normal">2 adults</span>
+                              </div>
+                            }
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="1">1 adult</SelectItem>
+                          <SelectItem value="2">2 adults</SelectItem>
+                          <SelectItem value="3">2 adults + 1 child</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <Button className="h-12 w-full" size="lg">
+                      Check Availability
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </div>
+          </section>
+        </div>
+      </Section>
       <Section>
         <div id="available-rooms">
           <div className="space-y-2">
@@ -193,81 +308,6 @@ export default function HotelDetail() {
                   <span className="text-2xl font-semibold">$250</span>
                   <Button size="sm">Book Now</Button>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-      <Section>
-        <div id="things-to-do">
-          <h2 className="mb-4 text-2xl font-bold">Things to Do in New York City</h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="flex items-center overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-950">
-              <img
-                alt="Popular Place 1"
-                className="aspect-[3/2] w-1/2 object-cover"
-                height={200}
-                src="/placeholder.svg"
-                width={300}
-              />
-              <div className="w-1/2 p-4">
-                <h3 className="text-lg font-semibold">Central Park</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">0.5 miles away</p>
-                <Button className="mt-4" size="sm" variant="outline">
-                  <MapIcon className="mr-2 h-5 w-5" />
-                  Directions
-                </Button>
-              </div>
-            </div>
-            <div className="flex items-center overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-950">
-              <img
-                alt="Popular Place 2"
-                className="aspect-[3/2] w-1/2 object-cover"
-                height={200}
-                src="/placeholder.svg"
-                width={300}
-              />
-              <div className="w-1/2 p-4">
-                <h3 className="text-lg font-semibold">Metropolitan Museum of Art</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">1 mile away</p>
-                <Button className="mt-4" size="sm" variant="outline">
-                  <MapIcon className="mr-2 h-5 w-5" />
-                  Directions
-                </Button>
-              </div>
-            </div>
-            <div className="flex items-center overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-950">
-              <img
-                alt="Popular Place 3"
-                className="aspect-[3/2] w-1/2 object-cover"
-                height={200}
-                src="/placeholder.svg"
-                width={300}
-              />
-              <div className="w-1/2 p-4">
-                <h3 className="text-lg font-semibold">Times Square</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">0.8 miles away</p>
-                <Button className="mt-4" size="sm" variant="outline">
-                  <MapIcon className="mr-2 h-5 w-5" />
-                  Directions
-                </Button>
-              </div>
-            </div>
-            <div className="flex items-center overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-950">
-              <img
-                alt="Popular Place 4"
-                className="aspect-[3/2] w-1/2 object-cover"
-                height={200}
-                src="/placeholder.svg"
-                width={300}
-              />
-              <div className="w-1/2 p-4">
-                <h3 className="text-lg font-semibold">Brooklyn Bridge</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">2 miles away</p>
-                <Button className="mt-4" size="sm" variant="outline">
-                  <MapIcon className="mr-2 h-5 w-5" />
-                  Directions
-                </Button>
               </div>
             </div>
           </div>

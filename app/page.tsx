@@ -4,21 +4,16 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { PopoverTrigger, PopoverContent, Popover } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
-import {
-  SelectValue,
-  SelectTrigger,
-  SelectItem,
-  SelectContent,
-  Select,
-} from '@/components/ui/select';
 import Link from 'next/link';
-import { CalendarIcon, Dices, StarIcon, UserIcon } from 'lucide-react';
+import { CalendarIcon, Dices, Minus, Plus, StarIcon, UserIcon } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import moment from 'moment';
-import Image from 'next/image';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const nearby = [
   {
+    id: 1,
     name: 'Balıkesir',
     distance: 3,
     min_price: 200,
@@ -26,6 +21,7 @@ const nearby = [
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/ayvalik-51231.webp',
   },
   {
+    id: 2,
     name: 'Bursa',
     distance: 2,
     min_price: 150,
@@ -33,6 +29,7 @@ const nearby = [
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/bursa-51230.webp',
   },
   {
+    id: 3,
     name: 'Çanakkale',
     distance: 4,
     min_price: 250,
@@ -40,6 +37,7 @@ const nearby = [
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/canakkale-51229.webp',
   },
   {
+    id: 4,
     name: 'İzmir',
     distance: 5,
     min_price: 300,
@@ -49,6 +47,16 @@ const nearby = [
 ];
 
 export default function Home() {
+  const router = useRouter();
+  const [searchParam, setSearchParam] = useState('');
+  const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
+    from: moment().toDate(),
+    to: moment().add(1, 'week').toDate(),
+  });
+  const [searchGuests, setSearchGuests] = useState({
+    adults: 2,
+    children: 0,
+  });
   return (
     <>
       <section
@@ -68,77 +76,120 @@ export default function Home() {
             <p className="text-white/75 md:text-xl">
               Search for hotels, resorts, and more across the globe.
             </p>
-            <form className="mt-6 flex items-center gap-1 rounded-lg bg-white p-1 shadow-lg dark:bg-gray-800">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                router.push(
+                  `/search?param=${searchParam}&from=${moment(searchDate?.from).format('x')}&to=${moment(searchDate?.to).format('x')}&adults=${searchGuests.adults}&children=${searchGuests.children}`,
+                );
+              }}
+              className="mt-6 flex flex-col items-center gap-1 rounded-lg bg-white p-1 shadow-lg dark:bg-gray-800 lg:flex-row"
+            >
               <Input
                 className="flex-1 border-0 bg-transparent px-4 py-2 text-gray-900 focus:!ring-0 focus:!ring-offset-0 dark:text-gray-50"
                 placeholder="Search by location"
                 type="text"
+                value={searchParam}
+                onChange={(e) => setSearchParam(e.target.value)}
               />
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                    variant="outline"
-                  >
-                    <CalendarIcon className="h-5 w-5" />
-                    <span className="ml-2">Dates</span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="max-w-[276px] p-0">
-                  <Calendar mode="range" disabled={(date) => moment(date).isBefore(moment())} />
-                </PopoverContent>
-              </Popover>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                    variant="outline"
-                  >
-                    <UserIcon className="h-5 w-5" />
-                    <span className="ml-2">Guests</span>
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="max-w-[276px] space-y-4">
-                  <div>
-                    <Label>Adults</Label>
-                    <Select defaultValue="2">
-                      <SelectTrigger className="w-full focus:outline-none focus:ring-0 focus:ring-offset-0">
-                        <SelectValue placeholder="Select guests" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">1 guest</SelectItem>
-                        <SelectItem value="2">2 guests</SelectItem>
-                        <SelectItem value="3">3 guests</SelectItem>
-                        <SelectItem value="4">4 guests</SelectItem>
-                        <SelectItem value="5">5 guests</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <Label>
-                      Children <span className="text-xs text-muted-foreground">(0-12 years)</span>
-                    </Label>
-                    <Select>
-                      <SelectTrigger className="w-full focus:outline-none focus:ring-0 focus:ring-offset-0">
-                        <SelectValue placeholder="Select guests" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">1 guest</SelectItem>
-                        <SelectItem value="2">2 guests</SelectItem>
-                        <SelectItem value="3">3 guests</SelectItem>
-                        <SelectItem value="4">4 guests</SelectItem>
-                        <SelectItem value="5">5 guests</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </PopoverContent>
-              </Popover>
-              <Button
-                className="ml-2 flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-400 dark:focus:ring-gray-300"
-                type="submit"
-              >
-                Search
-              </Button>
+              <div className="flex gap-1">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                      variant="outline"
+                    >
+                      <CalendarIcon className="mr-2 h-5 w-5" />
+                      <span>
+                        {searchDate?.from &&
+                          searchDate?.to &&
+                          moment(searchDate?.to).diff(searchDate.from, 'days')}{' '}
+                        days
+                      </span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      selected={searchDate}
+                      onSelect={(e) => setSearchDate(e)}
+                      mode="range"
+                      numberOfMonths={2}
+                      disabled={(date) => moment(date).isBefore(moment().add(-1, 'day'))}
+                    />
+                  </PopoverContent>
+                </Popover>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
+                      variant="outline"
+                    >
+                      <UserIcon className="h-5 w-5" />
+                      <span className="ml-2">Guests</span>
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="max-w-[276px] space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label>Adults</Label>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            searchGuests.adults < 12 &&
+                            setSearchGuests((prev) => ({ ...prev, adults: prev.adults + 1 }))
+                          }
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                        <span className="text-2xl font-semibold">{searchGuests.adults}</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            searchGuests.adults > 0 &&
+                            setSearchGuests((prev) => ({ ...prev, adults: prev.adults - 1 }))
+                          }
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <Label>Childrens</Label>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            searchGuests.children < 12 &&
+                            setSearchGuests((prev) => ({ ...prev, children: prev.children + 1 }))
+                          }
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                        <span className="text-2xl font-semibold">{searchGuests.children}</span>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() =>
+                            searchGuests.children > 0 &&
+                            setSearchGuests((prev) => ({ ...prev, children: prev.children - 1 }))
+                          }
+                        >
+                          <Minus className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+                <Button
+                  className="flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-400 dark:focus:ring-gray-300"
+                  type="submit"
+                >
+                  Search
+                </Button>
+              </div>
             </form>
           </div>
         </div>
@@ -257,8 +308,11 @@ export default function Home() {
             </div>
             <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {nearby.map((item) => (
-                <div className="group rounded-lg border border-gray-200 bg-white p-2 shadow-lg">
-                  <Link className="flex flex-row gap-4" href="#">
+                <div
+                  key={item.id}
+                  className="group rounded-lg border border-gray-200 bg-white p-2 shadow-lg"
+                >
+                  <Link className="flex flex-row gap-4" href={`/search?param=${item.name}+Turkiye`}>
                     <div className="relative h-[124px] w-[124px]">
                       <img
                         alt="Hotel Image"
