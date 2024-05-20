@@ -202,9 +202,6 @@ export default function Search() {
               </div>
             </div>
             <div>
-              <h4 className="mb-2 text-sm font-semibold">Price Range</h4>
-            </div>
-            <div>
               <h4 className="mb-2 text-sm font-semibold">Amenities</h4>
               <div className="space-y-2">
                 <Label className="flex items-center gap-2 font-normal">
