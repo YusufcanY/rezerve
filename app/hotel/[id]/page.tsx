@@ -61,7 +61,7 @@ export default function HotelDetail() {
   };
 
   return (
-    <div className="mx-auto grid max-w-6xl gap-4 px-4 py-12 md:px-6 lg:py-8">
+    <div className="container mx-auto grid gap-4">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -98,27 +98,27 @@ export default function HotelDetail() {
               <img
                 alt="Hotel Exterior"
                 className="aspect-[2/1] object-cover"
-                height={600}
+                height={1336 / 2}
                 src="/placeholder.svg"
-                width={1200}
+                width={1336}
               />
             </CarouselItem>
             <CarouselItem className="basis-full">
               <img
                 alt="Hotel Lobby"
                 className="aspect-[2/1] object-cover"
-                height={600}
+                height={1336 / 2}
                 src="/placeholder.svg"
-                width={1200}
+                width={1336}
               />
             </CarouselItem>
             <CarouselItem className="basis-full">
               <img
                 alt="Hotel Amenities"
                 className="aspect-[2/1] object-cover"
-                height={600}
+                height={1336 / 2}
                 src="/placeholder.svg"
-                width={1200}
+                width={1336}
               />
             </CarouselItem>
           </CarouselContent>

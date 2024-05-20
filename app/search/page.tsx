@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import {
   CalendarIcon,
   FilterIcon,
-  LoaderCircle,
   Minus,
   Plus,
   SearchIcon,
@@ -247,7 +246,7 @@ export default function Search() {
         {isLoading ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div>
+              <div key={i}>
                 <Skeleton className="h-48 rounded-lg bg-white" />
                 <div className="mt-4 flex justify-between">
                   <div className="flex flex-col">
@@ -262,7 +261,10 @@ export default function Search() {
         ) : (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div className="overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-900">
+              <div
+                key={i}
+                className="overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-900"
+              >
                 <Carousel className="group w-full">
                   <CarouselContent>
                     <CarouselItem className="basis-full">
