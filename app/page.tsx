@@ -312,7 +312,10 @@ export default function Home() {
                   key={item.id}
                   className="group rounded-lg border border-gray-200 bg-white p-2 shadow-lg"
                 >
-                  <Link className="flex flex-row gap-4" href={`/search?param=${item.name}+Turkiye`}>
+                  <Link
+                    className="flex flex-row gap-4"
+                    href={`/search?param=${item.name}, Turkiye`}
+                  >
                     <div className="relative h-[124px] w-[124px]">
                       <img
                         alt="Hotel Image"
