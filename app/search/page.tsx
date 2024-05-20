@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import {
   CalendarIcon,
   FilterIcon,
+  LoaderCircle,
   Minus,
   Plus,
   SearchIcon,
@@ -16,7 +17,7 @@ import {
   UserIcon,
 } from 'lucide-react';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -24,8 +25,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Search() {
+  const searchParams = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
   const [searchParam, setSearchParam] = useState('');
   const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
     from: moment().toDate(),
@@ -35,15 +41,28 @@ export default function Search() {
     adults: 2,
     children: 0,
   });
+  useEffect(() => {
+    if (!searchParams) return;
+    setSearchParam(searchParams.get('param') || '');
+    setSearchDate({
+      from: searchParams.get('from') ? new Date(parseInt(searchParams.get('from')!)) : undefined,
+      to: searchParams.get('to') ? new Date(parseInt(searchParams.get('to')!)) : undefined,
+    });
+    setSearchGuests({
+      adults: parseInt(searchParams.get('adults') || '2', 10),
+      children: parseInt(searchParams.get('children') || '0', 10),
+    });
+    setIsLoading(false);
+  }, [searchParams]);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
       <div className="bg-white">
-        <div className="container mx-auto flex items-center gap-4 px-4 py-4 md:px-6">
+        <div className="container mx-auto pb-4">
           <form
             onSubmit={(e) => {
               e.preventDefault();
             }}
-            className="flex w-full flex-col items-center gap-1 rounded-lg border border-primary bg-white p-1 shadow-lg dark:bg-gray-800 lg:flex-row"
+            className="flex w-full flex-col items-center gap-1 rounded-lg border border-foreground/25 bg-white p-1 shadow-lg transition-colors duration-200 focus-within:border-primary dark:bg-gray-800 lg:flex-row"
           >
             <div className="relative flex-1">
               <Input
@@ -158,7 +177,7 @@ export default function Search() {
           </form>
         </div>
       </div>
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-8 md:grid-cols-[240px_1fr] md:px-6">
+      <div className="container mx-auto grid grid-cols-1 gap-8 py-8 md:grid-cols-[240px_1fr]">
         <div className="rounded-lg bg-white shadow-sm dark:bg-gray-900">
           <div className="flex items-center border-b px-6 py-4 dark:border-gray-800">
             <FilterIcon className="mr-2 h-5 w-5" />
@@ -228,63 +247,84 @@ export default function Search() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {Array.from({ length: 6 }).map((_, i) => (
-            <div className="overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-900">
-              <Carousel className="w-full">
-                <CarouselContent>
-                  <CarouselItem className="basis-full">
-                    <img
-                      alt="Hotel Exterior"
-                      className="aspect-[2/1] object-cover"
-                      height={600}
-                      src="/placeholder.svg"
-                      width={1200}
-                    />
-                  </CarouselItem>
-                  <CarouselItem className="basis-full">
-                    <img
-                      alt="Hotel Lobby"
-                      className="aspect-[2/1] object-cover"
-                      height={600}
-                      src="/placeholder.svg"
-                      width={1200}
-                    />
-                  </CarouselItem>
-                  <CarouselItem className="basis-full">
-                    <img
-                      alt="Hotel Amenities"
-                      className="aspect-[2/1] object-cover"
-                      height={600}
-                      src="/placeholder.svg"
-                      width={1200}
-                    />
-                  </CarouselItem>
-                </CarouselContent>
-                <CarouselPrevious className="left-2 h-6 w-6" />
-                <CarouselNext className="right-2 h-6 w-6" />
-              </Carousel>
-              <div className="p-4">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold">The Ritz-Carlton, Bali</h3>
-                  <div className="flex items-center gap-1">
-                    <StarIcon className="h-5 w-5 fill-primary stroke-primary" />
-                    <span className="text-sm font-medium">4.8</span>
+        {isLoading ? (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div>
+                <Skeleton className="h-48 rounded-lg bg-white" />
+                <div className="mt-4 flex justify-between">
+                  <div className="flex flex-col">
+                    <Skeleton className="h-6 w-48 rounded-full bg-white" />
+                    <Skeleton className="mt-2 h-6 w-24 rounded-full bg-white" />
                   </div>
-                </div>
-                <div className="text-sm text-muted-foreground">Bali, Indonesia</div>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-lg font-semibold">
-                    $450 <span className="text-sm font-medium text-muted-foreground">night</span>
-                  </span>
-                  <Button size="sm" variant="outline">
-                    View Details
-                  </Button>
+                  <Skeleton className="h-6 w-16 rounded-full bg-white" />
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div className="overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-900">
+                <Carousel className="group w-full">
+                  <CarouselContent>
+                    <CarouselItem className="basis-full">
+                      <img
+                        alt="Hotel Exterior"
+                        className="aspect-[2/1] object-cover"
+                        height={600}
+                        src="/placeholder.svg"
+                        width={1200}
+                      />
+                    </CarouselItem>
+                    <CarouselItem className="basis-full">
+                      <img
+                        alt="Hotel Lobby"
+                        className="aspect-[2/1] object-cover"
+                        height={600}
+                        src="/placeholder.svg"
+                        width={1200}
+                      />
+                    </CarouselItem>
+                    <CarouselItem className="basis-full">
+                      <img
+                        alt="Hotel Amenities"
+                        className="aspect-[2/1] object-cover"
+                        height={600}
+                        src="/placeholder.svg"
+                        width={1200}
+                      />
+                    </CarouselItem>
+                  </CarouselContent>
+                  <div className="opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <CarouselPrevious className="left-2 h-6 w-6" />
+                  </div>
+                  <div className="opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                    <CarouselNext className="right-2 h-6 w-6" />
+                  </div>
+                </Carousel>
+                <div className="p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-semibold">The Ritz-Carlton, Bali</h3>
+                    <div className="flex items-center gap-1">
+                      <StarIcon className="h-5 w-5 fill-primary stroke-primary" />
+                      <span className="text-sm font-medium">4.8</span>
+                    </div>
+                  </div>
+                  <div className="text-sm text-muted-foreground">Bali, Indonesia</div>
+                  <div className="mt-4 flex items-center justify-between">
+                    <span className="text-lg font-semibold">
+                      $450 <span className="text-sm font-medium text-muted-foreground">night</span>
+                    </span>
+                    <Button asChild size="sm" variant="ghost-secondary">
+                      <Link href="/hotel/1">Book Now</Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

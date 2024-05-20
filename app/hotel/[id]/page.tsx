@@ -69,7 +69,7 @@ export default function HotelDetail() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/rome">Rome</BreadcrumbLink>
+            <BreadcrumbLink href="/search?param=Rome">Rome</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
