@@ -20,31 +20,31 @@ export default function Footer() {
           <nav className="flex flex-col items-center gap-2 lg:items-start">
             <Link
               className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              href="/search?param=Istanbul"
             >
               Istanbul
             </Link>
             <Link
               className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              href="/search?param=Rome"
             >
               Rome
             </Link>
             <Link
               className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              href="/search?param=Paris"
             >
               Paris
             </Link>
             <Link
               className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              href="/search?param=Athens"
             >
               Athens
             </Link>
             <Link
               className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              href="/search?param=Berlin"
             >
               Berlin
             </Link>
