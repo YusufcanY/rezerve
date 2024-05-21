@@ -60,3 +60,30 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes slideIn {
+  0% {
+    transform: translate3d(0, 50%, 0);
+    opacity: 0;
+  }
+  6.66% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  28.66% {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+  33.30% {
+    transform: translate3d(0, -50%, 0);
+    opacity: 0;
+  }
+  33.31% {
+    transform: translate3d(0, 50%, 0);
+    opacity: 0;
+  }
+  100% {
+    transform: translate3d(0, 50%, 0);
+    opacity: 0;
+  }
+}
