@@ -101,7 +101,7 @@ export default function Home() {
                         {searchDate?.from &&
                           searchDate?.to &&
                           moment(searchDate?.to).diff(searchDate.from, 'days')}{' '}
-                        days
+                        nights
                       </span>
                     </Button>
                   </PopoverTrigger>
