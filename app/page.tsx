@@ -366,9 +366,12 @@ export default function Home() {
                 size="lg"
                 variant="outline"
                 className="border-none bg-white/25 text-xl text-white"
+                asChild
               >
-                <Dices className="mr-2 h-8 w-8" />
-                Roll Now
+                <Link href="/hotel/1">
+                  <Dices className="mr-2 h-8 w-8" />
+                  Roll Now
+                </Link>
               </Button>
             </div>
           </div>
