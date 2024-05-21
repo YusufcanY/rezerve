@@ -92,13 +92,10 @@ export default function Home() {
                 value={searchParam}
                 onChange={(e) => setSearchParam(e.target.value)}
               />
-              <div className="flex gap-1">
+              <div className="flex w-full gap-1 lg:w-auto">
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button
-                      className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                      variant="outline"
-                    >
+                    <Button variant="outline" className="w-full lg:w-auto">
                       <CalendarIcon className="mr-2 h-5 w-5" />
                       <span>
                         {searchDate?.from &&
@@ -120,10 +117,7 @@ export default function Home() {
                 </Popover>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button
-                      className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                      variant="outline"
-                    >
+                    <Button variant="outline" className="w-full lg:w-auto">
                       <UserIcon className="h-5 w-5" />
                       <span className="ml-2">Guests</span>
                     </Button>
@@ -183,7 +177,9 @@ export default function Home() {
                     </div>
                   </PopoverContent>
                 </Popover>
-                <Button type="submit">Search</Button>
+                <Button type="submit" className="w-full lg:w-auto">
+                  Search
+                </Button>
               </div>
             </form>
           </div>
