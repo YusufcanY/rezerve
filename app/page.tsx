@@ -8,8 +8,9 @@ import Link from 'next/link';
 import { CalendarIcon, Dices, Minus, Plus, StarIcon, UserIcon } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import moment from 'moment';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
 const nearby = [
   {
@@ -48,6 +49,13 @@ const nearby = [
 
 export default function Home() {
   const router = useRouter();
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+
   const [searchParam, setSearchParam] = useState('');
   const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
     from: moment().toDate(),
@@ -59,16 +67,8 @@ export default function Home() {
   });
   return (
     <>
-      <section
-        style={{
-          background:
-            'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/b59565121495337.60c75de2a8936.jpg)',
-          backgroundPosition: 'bottom',
-          backgroundSize: 'cover',
-        }}
-        className="w-full py-12 md:py-20 lg:py-40"
-      >
-        <div className="container px-4 md:px-6">
+      <section ref={heroRef} className="relative w-full overflow-hidden py-12 md:py-20 lg:py-40">
+        <div className="container relative z-10 px-4 md:px-6">
           <div className="mx-auto max-w-3xl space-y-4 text-center">
             <h1 className="text-3xl font-bold tracking-tighter text-gray-50 sm:text-4xl md:text-5xl lg:text-6xl">
               Find your perfect stay
@@ -188,6 +188,16 @@ export default function Home() {
             </form>
           </div>
         </div>
+        <motion.div
+          className="absolute inset-0 z-0"
+          style={{
+            background:
+              'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7)), url(https://mir-s3-cdn-cf.behance.net/project_modules/max_3840/b59565121495337.60c75de2a8936.jpg)',
+            backgroundPosition: 'bottom',
+            backgroundSize: 'cover',
+            y: backgroundY,
+          }}
+        ></motion.div>
       </section>
       <main>
         <section className="py-12 md:py-20 lg:py-28">
