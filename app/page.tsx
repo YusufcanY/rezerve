@@ -87,7 +87,7 @@ export default function Home() {
             >
               <Input
                 className="flex-1 border-0 bg-transparent px-4 py-2 text-gray-900 focus:!ring-0 focus:!ring-offset-0 dark:text-gray-50"
-                placeholder="Search by location"
+                placeholder="Search by location, hotel or place name"
                 type="text"
                 value={searchParam}
                 onChange={(e) => setSearchParam(e.target.value)}
@@ -183,12 +183,7 @@ export default function Home() {
                     </div>
                   </PopoverContent>
                 </Popover>
-                <Button
-                  className="flex h-10 items-center justify-center rounded-md bg-gray-900 px-4 text-sm font-medium text-gray-50 transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-950 dark:bg-gray-50 dark:text-gray-900 dark:hover:bg-gray-400 dark:focus:ring-gray-300"
-                  type="submit"
-                >
-                  Search
-                </Button>
+                <Button type="submit">Search</Button>
               </div>
             </form>
           </div>

@@ -239,8 +239,8 @@ export default function HotelDetail() {
         </div>
       </Section>
       <Section>
-        <div id="available-rooms">
-          <div className="space-y-2">
+        <div id="available-rooms" className="space-y-4">
+          <div>
             <h2 className="text-3xl font-bold">Available Rooms</h2>
             <p className="text-muted-foreground">
               Choose from our selection of comfortable and stylish rooms.
@@ -248,13 +248,7 @@ export default function HotelDetail() {
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             <div className="overflow-hidden rounded-lg bg-white shadow-md dark:bg-gray-950">
-              <img
-                alt="Room Image"
-                className="aspect-[4/3] object-cover"
-                height={300}
-                src="/placeholder.svg"
-                width={400}
-              />
+              <img alt="Room Image" className="aspect-[4/3] object-cover" src="/placeholder.svg" />
               <div className="p-4">
                 <h3 className="text-xl font-semibold">Deluxe Room</h3>
                 <p className="text-sm text-gray-500 dark:text-gray-400">350 sq ft | 1 King Bed</p>
