@@ -1,6 +1,6 @@
 import { Hotel } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '../ui/button';
+import HeaderCTA from './HeaderCTA';
 
 export default function Header() {
   return (
@@ -10,9 +10,7 @@ export default function Header() {
           <Hotel className="h-6 w-6 text-primary" />
           <span className="text-lg font-bold tracking-tighter">Rezerve</span>
         </Link>
-        <Button size="sm" variant="outline-secondary" asChild>
-          <Link href="/add-hotel">Add Your Hotel</Link>
-        </Button>
+        <HeaderCTA />
       </div>
     </header>
   );

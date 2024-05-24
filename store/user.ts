@@ -6,25 +6,31 @@ import Cookies from 'js-cookie';
 type State = {
   user: User | null;
   token: string | null;
+  isUserLoggedIn: boolean;
 };
 
 type Actions = {
-  updateUser: (socket: State['user']) => void;
-  updateToken: (socket: State['token']) => void;
+  updateUser: (user: State['user']) => void;
+  updateToken: (token: State['token']) => void;
   reset: () => void;
 };
 
 const initialState: State = {
   user: null,
   token: null,
+  isUserLoggedIn: false,
 };
 
 const useUserStore = create<State & Actions>()(
   persist(
     (set) => ({
       ...initialState,
-      updateUser: (user) => set(() => ({ user })),
-      updateToken: (token) => set(() => ({ token })),
+      updateUser: (user) => {
+        set((state) => ({ user, isUserLoggedIn: !!user && !!state.token }));
+      },
+      updateToken: (token) => {
+        set((state) => ({ token, isUserLoggedIn: !!state.user && !!token }));
+      },
       reset: () => set(() => ({ ...initialState })),
     }),
     {
