@@ -31,8 +31,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
-import { useIntersectionObserver } from '@uidotdev/usehooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
@@ -44,19 +43,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useInView } from 'framer-motion';
 
 export default function HotelDetail() {
   const [activeTab, setActiveTab] = useState('details');
 
   const Section = ({ children }: { children: React.ReactElement }) => {
-    const [ref, entry] = useIntersectionObserver({
-      threshold: 0,
-      root: null,
-      rootMargin: '0px',
+    const ref = useRef<HTMLDivElement>(null);
+    const isInView = useInView(ref, {
+      amount: 1,
     });
     useEffect(() => {
-      if (entry?.isIntersecting) setActiveTab(children.props.id);
-    }, [entry?.isIntersecting]);
+      if (isInView) {
+        setActiveTab(children.props.id);
+      }
+    });
     return <section ref={ref}>{children}</section>;
   };
 
