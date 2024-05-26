@@ -1,4 +1,3 @@
-import { User } from '@/types/user';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import Cookies from 'js-cookie';

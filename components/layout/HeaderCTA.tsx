@@ -63,8 +63,8 @@ export default function HeaderCTA() {
       <DropdownMenu>
         <DropdownMenuTrigger>
           <Button size="sm" variant="ghost">
-            <Avvvatars value={user.name} />
-            <span className="ml-2">{user.name}</span>
+            <Avvvatars value={user!.name} />
+            <span className="ml-2">{user!.name}</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent>
