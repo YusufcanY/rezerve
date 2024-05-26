@@ -1,5 +1,5 @@
+import useUserStore from '@/store/user';
 import axios from 'axios';
-import Cookie from 'js-cookie';
 
 const Axios = axios.create({
   baseURL: 'http://localhost:8000',
@@ -10,7 +10,7 @@ Axios.interceptors.request.use(
   (config) => {
     // Do something before the request is sent
     // For example, add your auth token here
-    const token = Cookie.get('token');
+    const token = useUserStore.getState().token;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

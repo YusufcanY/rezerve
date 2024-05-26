@@ -1,6 +1,6 @@
 import Axios from '@axios';
 
-const AuthService = {
+const HotelService = {
   random: () => {
     return Axios.get('/hotel/random');
   },
@@ -31,4 +31,4 @@ const AuthService = {
   },
 };
 
-export default AuthService;
+export default HotelService;

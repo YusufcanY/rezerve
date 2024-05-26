@@ -19,6 +19,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import AuthService from '@/service/auth';
+import useUserStore from '@/store/user';
+import { useRouter } from 'next/navigation';
 
 const RegisterSchema = z.object({
   name: z
@@ -52,8 +54,16 @@ const RegisterSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof RegisterSchema>;
 export default function RegisterForm() {
+  const router = useRouter();
+
+  const { updateUser, updateToken } = useUserStore();
   const { mutate, isPending } = useMutation({
     mutationFn: AuthService.register,
+    onSuccess: (data) => {
+      updateUser(data.data.user);
+      updateToken(data.data.token);
+      router.push('/');
+    },
   });
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),

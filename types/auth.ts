@@ -7,3 +7,9 @@ type LoginBody = {
   email: string;
   password: string;
 };
+
+type RegisterResponse = {
+  success: boolean;
+  user: User;
+  token: string;
+};
