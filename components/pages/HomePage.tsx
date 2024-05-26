@@ -68,19 +68,11 @@ export default function HomePage() {
     children: 0,
   });
 
-  const {
-    data: randomHotel,
-    isFetched: isRandomHotelFetched,
-    isSuccess: isRandomHotelSuccess,
-  } = useQuery({
+  const { data: randomHotel, isSuccess: isRandomHotelSuccess } = useQuery({
     queryKey: ['hotel/random'],
     queryFn: HotelService.random,
   });
-  const {
-    data: popularHotels,
-    isFetched: isPopularHotelsFetched,
-    isSuccess: isPopularHotelsSuccess,
-  } = useQuery({
+  const { data: popularHotels, isSuccess: isPopularHotelsSuccess } = useQuery({
     queryKey: ['hotel/popular'],
     queryFn: HotelService.popularHotels,
   });
@@ -381,7 +373,7 @@ export default function HomePage() {
               <p className="text-lg text-white/75">
                 Sometimes the best trips are unplanned. Get a random hotel to stay in.
               </p>
-              {isRandomHotelFetched && isRandomHotelSuccess && (
+              {isRandomHotelSuccess && (
                 <Button
                   size="lg"
                   variant="outline"
