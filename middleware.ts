@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import pages from '@/constants/authPages';
 
 export function middleware(req: NextRequest) {
   const cookie = req.cookies.get('user');
@@ -7,7 +8,7 @@ export function middleware(req: NextRequest) {
     cookie &&
     cookie.value &&
     JSON.parse(cookie.value).state.token &&
-    (req.nextUrl.pathname === '/login' || req.nextUrl.pathname === '/register')
+    pages.unauthPages.includes(req.nextUrl.pathname)
   ) {
     return NextResponse.redirect(new URL('/', req.url));
   }
@@ -16,7 +17,7 @@ export function middleware(req: NextRequest) {
     cookie &&
     cookie.value &&
     !JSON.parse(cookie.value).state.token &&
-    req.nextUrl.pathname === '/profile'
+    pages.authPages.includes(req.nextUrl.pathname)
   ) {
     return NextResponse.redirect(new URL('/login', req.url));
   }
