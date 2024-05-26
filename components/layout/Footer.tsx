@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer>
-      <div className="container mx-auto grid grid-cols-1 gap-8 px-4 lg:grid-cols-12">
+      <div className="container mx-auto grid grid-cols-1 gap-8 lg:grid-cols-12">
         <div className="flex flex-col items-center gap-4 lg:col-span-6 lg:items-start">
           <Link className="flex items-center gap-2" href="/">
             <Hotel className="h-6 w-6" />
