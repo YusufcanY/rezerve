@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 
 const Axios = axios.create({
-  baseURL: 'https://your-base-url.com',
+  baseURL: 'http://localhost:8000',
 });
 
 // Add a request interceptor
