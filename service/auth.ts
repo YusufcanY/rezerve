@@ -10,6 +10,12 @@ const AuthService = {
   logout: () => {
     return Axios.post('/auth/logout');
   },
+  me: () => {
+    return Axios.get('/user/me');
+  },
+  reservations: () => {
+    return Axios.get('/user/reservations');
+  },
 };
 
 export default AuthService;
