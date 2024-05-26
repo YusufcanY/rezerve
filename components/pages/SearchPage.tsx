@@ -28,6 +28,13 @@ export default function SearchPage({
 }: {
   params: { param: string; from: string; to: string; adults: string; children: string };
 }) {
+  const [filters, setFilters] = useState({
+    param: params.param,
+    from: moment(Number(params.from)).toDate(),
+    to: moment(Number(params.to)).toDate(),
+    adults: Number(params.adults),
+    children: Number(params.children),
+  });
   const [searchParam, setSearchParam] = useState(params.param);
   const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
     from: moment(Number(params.from)).toDate(),
@@ -38,24 +45,15 @@ export default function SearchPage({
     children: Number(params.children),
   });
   const { data, isFetching, isRefetching, isError, refetch } = useQuery({
-    queryKey: [
-      'hotel/search',
-      {
-        param: searchParam,
-        from: searchDate?.from,
-        to: searchDate?.to,
-        adults: searchGuests.adults,
-        children: searchGuests.children,
-      },
-    ],
+    queryKey: ['hotel/search', filters],
     queryFn: () => {
       return HotelService.search({
-        query: searchParam,
+        query: filters.param,
         dates: {
-          from: moment(searchDate?.from).format('YYYY-MM-DD'),
-          to: moment(searchDate?.to).format('YYYY-MM-DD'),
+          from: moment(filters.from).format('YYYY-MM-DD'),
+          to: moment(filters.to).format('YYYY-MM-DD'),
         },
-        guestCount: searchGuests.adults,
+        guestCount: filters.adults,
         amenities: [],
         rating: 5,
       });
@@ -71,7 +69,13 @@ export default function SearchPage({
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              refetch();
+              setFilters({
+                param: searchParam,
+                from: searchDate?.from || filters.from,
+                to: searchDate?.to || filters.to,
+                adults: searchGuests.adults,
+                children: searchGuests.children,
+              });
             }}
             className="flex w-full flex-col items-center gap-1 rounded-lg border border-foreground/25 bg-white p-1 shadow-lg transition-colors duration-200 focus-within:border-primary dark:bg-gray-800 lg:flex-row"
           >
