@@ -27,21 +27,21 @@ export default async function Search({
       'hotel/search',
       {
         param: searchParams.param,
-        from: searchParams.from,
-        to: searchParams.to,
-        adults: searchParams.adults,
-        children: searchParams.children,
+        from: moment(Number(searchParams.from)).toDate(),
+        to: moment(Number(searchParams.to)).toDate(),
+        adults: Number(searchParams.adults),
+        children: Number(searchParams.children),
       },
     ],
     queryFn: () => {
       return HotelService.search({
         query: typeof searchParams.param === 'string' ? searchParams.param : '',
         dates: {
-          from: moment(searchParams.from).format('YYYY-MM-DD'),
-          to: moment(searchParams.to).format('YYYY-MM-DD'),
+          from: moment(Number(searchParams.from)).format('YYYY-MM-DD'),
+          to: moment(Number(searchParams.to)).format('YYYY-MM-DD'),
         },
         guestCount: Number(searchParams.adults),
-        amenities: ['sa'],
+        amenities: [],
         rating: 5,
       });
     },

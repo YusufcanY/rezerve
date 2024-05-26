@@ -16,7 +16,7 @@ import {
   UserIcon,
 } from 'lucide-react';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
 import SearchLoading from './search/SearchLoading';
@@ -37,32 +37,33 @@ export default function SearchPage({
     adults: Number(params.adults),
     children: Number(params.children),
   });
-  const { data, isFetching, isRefetching, isError } = useQuery({
+  const { data, isFetching, isRefetching, isError, refetch } = useQuery({
     queryKey: [
       'hotel/search',
       {
-        param: params.param,
-        from: params.from,
-        to: params.to,
-        adults: params.adults,
-        children: params.children,
+        param: searchParam,
+        from: searchDate?.from,
+        to: searchDate?.to,
+        adults: searchGuests.adults,
+        children: searchGuests.children,
       },
     ],
     queryFn: () => {
       return HotelService.search({
-        query: params.param,
+        query: searchParam,
         dates: {
-          from: moment(params.from).format('YYYY-MM-DD'),
-          to: moment(params.to).format('YYYY-MM-DD'),
+          from: moment(searchDate?.from).format('YYYY-MM-DD'),
+          to: moment(searchDate?.to).format('YYYY-MM-DD'),
         },
-        guestCount: Number(params.adults),
-        amenities: ['sa'],
+        guestCount: searchGuests.adults,
+        amenities: [],
         rating: 5,
       });
     },
     retry: false,
     refetchOnWindowFocus: false,
   });
+  useEffect(() => console.log('data :>> ', data), [data]);
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
       <div className="bg-white">
@@ -70,6 +71,7 @@ export default function SearchPage({
           <form
             onSubmit={(e) => {
               e.preventDefault();
+              refetch();
             }}
             className="flex w-full flex-col items-center gap-1 rounded-lg border border-foreground/25 bg-white p-1 shadow-lg transition-colors duration-200 focus-within:border-primary dark:bg-gray-800 lg:flex-row"
           >
@@ -255,7 +257,7 @@ export default function SearchPage({
         </div>
         {isFetching && !isRefetching ? (
           <SearchLoading />
-        ) : isError || !data ? (
+        ) : isError || !data || !(data && data.hotels.length > 0) ? (
           <SearchNotFound />
         ) : (
           <SearchResults />

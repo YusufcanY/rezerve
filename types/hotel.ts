@@ -73,3 +73,7 @@ type PopularHotelsResponse = {
   success: boolean;
   hotels: Hotel[];
 };
+type SearchResponse = {
+  success: boolean;
+  hotels: Hotel[];
+};

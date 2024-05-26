@@ -8,7 +8,7 @@ const HotelService = {
     return Axios.get('/hotel/' + id).then((res) => res.data);
   },
   search: (body: SearchBody) => {
-    return Axios.post('/hotel/search', body).then((res) => res.data);
+    return Axios.post<SearchResponse>('/hotel/search', body).then((res) => res.data);
   },
   popularHotels: () => {
     return Axios.get<PopularHotelsResponse>('/hotel/highly-rated').then((res) => res.data);
