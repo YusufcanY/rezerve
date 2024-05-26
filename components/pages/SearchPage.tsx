@@ -16,43 +16,53 @@ import {
   UserIcon,
 } from 'lucide-react';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import HotelService from '@/service/hotel';
+import SearchLoading from './search/SearchLoading';
+import SearchNotFound from './search/SearchNotFound';
+import SearchResults from './search/SearchResults';
 
-export default function SearchPage() {
-  const searchParams = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchParam, setSearchParam] = useState('');
+export default function SearchPage({
+  params,
+}: {
+  params: { param: string; from: string; to: string; adults: string; children: string };
+}) {
+  const [searchParam, setSearchParam] = useState(params.param);
   const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
-    from: moment().toDate(),
-    to: moment().add(1, 'week').toDate(),
+    from: moment(Number(params.from)).toDate(),
+    to: moment(Number(params.to)).toDate(),
   });
   const [searchGuests, setSearchGuests] = useState({
-    adults: 2,
-    children: 0,
+    adults: Number(params.adults),
+    children: Number(params.children),
   });
-  useEffect(() => {
-    if (!searchParams) return;
-    setSearchParam(searchParams.get('param') || '');
-    setSearchDate({
-      from: searchParams.get('from') ? new Date(parseInt(searchParams.get('from')!)) : undefined,
-      to: searchParams.get('to') ? new Date(parseInt(searchParams.get('to')!)) : undefined,
-    });
-    setSearchGuests({
-      adults: parseInt(searchParams.get('adults') || '2', 10),
-      children: parseInt(searchParams.get('children') || '0', 10),
-    });
-    setIsLoading(false);
-  }, [searchParams]);
+  const { data, isFetching, isRefetching, isError } = useQuery({
+    queryKey: [
+      'hotel/search',
+      {
+        param: params.param,
+        from: params.from,
+        to: params.to,
+        adults: params.adults,
+        children: params.children,
+      },
+    ],
+    queryFn: () => {
+      return HotelService.search({
+        query: params.param,
+        dates: {
+          from: moment(params.from).format('YYYY-MM-DD'),
+          to: moment(params.to).format('YYYY-MM-DD'),
+        },
+        guestCount: Number(params.adults),
+        amenities: ['sa'],
+        rating: 5,
+      });
+    },
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
       <div className="bg-white">
@@ -243,86 +253,12 @@ export default function SearchPage() {
             </div>
           </div>
         </div>
-        {isLoading ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i}>
-                <Skeleton className="h-48 rounded-lg bg-white" />
-                <div className="mt-4 flex justify-between">
-                  <div className="flex flex-col">
-                    <Skeleton className="h-6 w-48 rounded-full bg-white" />
-                    <Skeleton className="mt-2 h-6 w-24 rounded-full bg-white" />
-                  </div>
-                  <Skeleton className="h-6 w-16 rounded-full bg-white" />
-                </div>
-              </div>
-            ))}
-          </div>
+        {isFetching && !isRefetching ? (
+          <SearchLoading />
+        ) : isError || !data ? (
+          <SearchNotFound />
         ) : (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div
-                key={i}
-                className="overflow-hidden rounded-lg bg-white shadow-sm dark:bg-gray-900"
-              >
-                <Carousel className="group w-full">
-                  <CarouselContent>
-                    <CarouselItem className="basis-full">
-                      <img
-                        alt="Hotel Exterior"
-                        className="aspect-[2/1] object-cover"
-                        height={600}
-                        src="/placeholder.svg"
-                        width={1200}
-                      />
-                    </CarouselItem>
-                    <CarouselItem className="basis-full">
-                      <img
-                        alt="Hotel Lobby"
-                        className="aspect-[2/1] object-cover"
-                        height={600}
-                        src="/placeholder.svg"
-                        width={1200}
-                      />
-                    </CarouselItem>
-                    <CarouselItem className="basis-full">
-                      <img
-                        alt="Hotel Amenities"
-                        className="aspect-[2/1] object-cover"
-                        height={600}
-                        src="/placeholder.svg"
-                        width={1200}
-                      />
-                    </CarouselItem>
-                  </CarouselContent>
-                  <div className="opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                    <CarouselPrevious className="left-2 h-6 w-6" />
-                  </div>
-                  <div className="opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                    <CarouselNext className="right-2 h-6 w-6" />
-                  </div>
-                </Carousel>
-                <div className="p-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-lg font-semibold">The Ritz-Carlton, Bali</h3>
-                    <div className="flex items-center gap-1">
-                      <StarIcon className="h-5 w-5 fill-primary stroke-primary" />
-                      <span className="text-sm font-medium">4.8</span>
-                    </div>
-                  </div>
-                  <div className="text-sm text-muted-foreground">Bali, Indonesia</div>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="text-lg font-semibold">
-                      $450 <span className="text-sm font-medium text-muted-foreground">night</span>
-                    </span>
-                    <Button asChild size="sm" variant="ghost-secondary">
-                      <Link href="/hotel/1">Book Now</Link>
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+          <SearchResults />
         )}
       </div>
     </div>
