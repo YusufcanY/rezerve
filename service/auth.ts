@@ -1,11 +1,11 @@
 import Axios from '@axios';
 
 const AuthService = {
-  login: (email: string, password: string) => {
-    return Axios.post('/auth/login', { email, password });
+  login: (body: LoginBody) => {
+    return Axios.post('/auth/login', body);
   },
-  register: (email: string, password: string) => {
-    return Axios.post('/auth/register', { email, password });
+  register: (body: RegisterBody) => {
+    return Axios.post('/auth/register', body);
   },
   logout: () => {
     return Axios.post('/auth/logout');

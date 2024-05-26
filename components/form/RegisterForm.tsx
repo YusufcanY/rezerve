@@ -17,6 +17,8 @@ import { Loader2 } from 'lucide-react';
 import PasswordStrength from '@/components/PasswordStrength';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useMutation } from '@tanstack/react-query';
+import AuthService from '@/service/auth';
 
 const RegisterSchema = z.object({
   name: z
@@ -50,6 +52,9 @@ const RegisterSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof RegisterSchema>;
 export default function RegisterForm() {
+  const { mutate, isPending } = useMutation({
+    mutationFn: AuthService.register,
+  });
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(RegisterSchema),
     values: {
@@ -61,10 +66,7 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((d) => console.log('d :>> ', d))}
-        className="w-full space-y-4"
-      >
+      <form onSubmit={form.handleSubmit((d) => mutate(d))} className="w-full space-y-4">
         <FormField
           control={form.control}
           name="name"
@@ -138,8 +140,8 @@ export default function RegisterForm() {
           <Button type="button" asChild variant="ghost">
             <Link href="/login">Login</Link>
           </Button>
-          <Button type="submit">
-            {false && <Loader2 className="mr-2 animate-spin" />}
+          <Button type="submit" disabled={isPending}>
+            {isPending && <Loader2 className="mr-2 animate-spin" />}
             Register
           </Button>
         </div>
