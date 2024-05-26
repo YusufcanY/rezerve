@@ -14,9 +14,11 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Loader2 } from 'lucide-react';
-import PasswordStrength from '@/components/PasswordStrength';
-import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import useUserStore from '@/store/user';
+import { useMutation } from '@tanstack/react-query';
+import AuthService from '@/service/auth';
 
 const LoginSchema = z.object({
   email: z
@@ -40,6 +42,17 @@ const LoginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof LoginSchema>;
 export default function LoginForm() {
+  const router = useRouter();
+
+  const { updateUser, updateToken } = useUserStore();
+  const { mutate, isPending } = useMutation({
+    mutationFn: AuthService.login,
+    onSuccess: (data) => {
+      updateUser(data.data.user);
+      updateToken(data.data.token);
+      router.push('/');
+    },
+  });
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(LoginSchema),
     values: {
@@ -50,10 +63,7 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((d) => console.log('d :>> ', d))}
-        className="w-full space-y-4"
-      >
+      <form onSubmit={form.handleSubmit((d) => mutate(d))} className="w-full space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -91,7 +101,7 @@ export default function LoginForm() {
             <Link href="/register">Register</Link>
           </Button>
           <Button type="submit">
-            {false && <Loader2 className="mr-2 animate-spin" />}
+            {isPending && <Loader2 className="mr-2 animate-spin" />}
             Login
           </Button>
         </div>
