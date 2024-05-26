@@ -27,7 +27,7 @@ export default function RootLayout({
             <Header />
           </div>
           {children}
-          <div className="pt-4">
+          <div className="pt-8">
             <Footer />
           </div>
           <Toaster />
