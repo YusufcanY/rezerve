@@ -1,6 +1,8 @@
 import { Hotel } from 'lucide-react';
+import moment from 'moment';
 import Link from 'next/link';
 
+const FooterCities = ['Istanbul', 'Rome', 'Paris', 'Athens', 'Berlin'];
 export default function Footer() {
   return (
     <footer>
@@ -18,36 +20,15 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-4 lg:col-span-3 lg:items-start">
           <h4 className="text-lg font-semibold">Popular Cities</h4>
           <nav className="flex flex-col items-center gap-2 lg:items-start">
-            <Link
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/search?param=Istanbul"
-            >
-              Istanbul
-            </Link>
-            <Link
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/search?param=Rome"
-            >
-              Rome
-            </Link>
-            <Link
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/search?param=Paris"
-            >
-              Paris
-            </Link>
-            <Link
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/search?param=Athens"
-            >
-              Athens
-            </Link>
-            <Link
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="/search?param=Berlin"
-            >
-              Berlin
-            </Link>
+            {FooterCities.map((city, index) => (
+              <Link
+                key={index}
+                className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+                href={`/search?param=${city}&from=${moment().format('x')}&to=${moment().add(1, 'week').format('x')}&adults=2&children=0`}
+              >
+                {city}
+              </Link>
+            ))}
           </nav>
         </div>
         <div className="flex flex-col items-center gap-4 lg:col-span-3 lg:items-start">
