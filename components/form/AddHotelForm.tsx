@@ -44,7 +44,7 @@ import { Badge } from '../ui/badge';
 import stringSimilarity from 'string-similarity';
 import { useMutation } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const amenities = [
   { id: 'wifi', text: 'Wifi' },
