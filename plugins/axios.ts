@@ -2,7 +2,7 @@ import useUserStore from '@/store/user';
 import axios from 'axios';
 
 const Axios = axios.create({
-  baseURL: 'http://localhost:8000',
+  baseURL: process.env.NEXT_PUBLIC_API,
 });
 
 // Add a request interceptor
