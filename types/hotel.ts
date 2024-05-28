@@ -37,14 +37,11 @@ type SearchBody = {
 type CreateHotelBody = {
   name: string;
   description: string;
-  rating: number;
   location: {
     country: string;
     city: string;
   };
-  maxOccupantCount: number;
   rooms: Room[];
-  amenities: string[];
 };
 
 type AddImageBody = {
@@ -64,10 +61,14 @@ type CreateReservationBody = {
     to: string;
   };
 };
+type CreateHotelResponse = {
+  success: boolean;
+  hotel: Hotel;
+};
 
 type RandomHotelResponse = {
   success: boolean;
-  hotels: Hotel[];
+  hotel: Hotel;
 };
 type PopularHotelsResponse = {
   success: boolean;

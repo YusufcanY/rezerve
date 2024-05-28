@@ -380,7 +380,7 @@ export default function HomePage() {
                   className="border-none bg-white/25 text-xl text-white"
                   asChild
                 >
-                  <Link href={'/hotel/' + randomHotel.hotels[0]._id}>
+                  <Link href={'/hotel/' + randomHotel.hotel._id}>
                     <Dices className="mr-2 h-8 w-8" />
                     Roll Now
                   </Link>

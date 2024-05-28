@@ -14,10 +14,10 @@ const HotelService = {
     return Axios.get<PopularHotelsResponse>('/hotel/highly-rated').then((res) => res.data);
   },
   createHotel: (body: CreateHotelBody) => {
-    return Axios.post('/hotel', body).then((res) => res.data);
+    return Axios.post<CreateHotelResponse>('/hotel', body).then((res) => res.data);
   },
-  addImagesToHotel: (id: string, body: AddImageBody) => {
-    return Axios.post('/hotel/' + id, body, {
+  addImagesToHotel: ({ id, body }: { id: string; body: FormData }) => {
+    return Axios.post('/hotel/' + id + '/images', body, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
