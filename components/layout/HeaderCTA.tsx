@@ -27,10 +27,11 @@ export default function HeaderCTA() {
 
   const { isUserLoggedIn, updateUser, reset, user } = useUserStore();
 
-  const { data, isSuccess, isError, isFetched, isFetching, isRefetching } = useQuery({
+  const { data, isSuccess, isFetched, isFetching, isRefetching } = useQuery({
     queryKey: ['user/me'],
     queryFn: AuthService.me,
     enabled: isUserLoggedIn,
+    retry: 0,
   });
   const { mutate: logout, isPending } = useMutation({
     mutationFn: AuthService.logout,
@@ -44,8 +45,9 @@ export default function HeaderCTA() {
       if (isSuccess) {
         const { user } = data.data;
         updateUser(user);
-      } else if (isError) {
+      } else {
         reset();
+        if (pages.authPages.includes(pathname)) router.push('/login');
       }
     }
   }, [isFetched]);
