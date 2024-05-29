@@ -45,37 +45,8 @@ import stringSimilarity from 'string-similarity';
 import { useMutation } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
 import { useRouter } from 'next/navigation';
+import amenities from '@/constants/amenities';
 
-const amenities = [
-  { id: 'wifi', text: 'Wifi' },
-  { id: 'tv', text: 'TV' },
-  { id: 'fireplace', text: 'Fireplace' },
-  { id: 'air-conditioning', text: 'Air Conditioning' },
-  { id: 'minibar', text: 'Minibar' },
-  { id: 'balcony', text: 'Balcony' },
-  { id: 'bathroom', text: 'Bathroom' },
-  { id: 'shower', text: 'Shower' },
-  { id: 'bathtub', text: 'Bathtub' },
-  { id: 'hairdryer', text: 'Hairdryer' },
-  { id: 'desk', text: 'Desk' },
-  { id: 'safe', text: 'Safe' },
-  { id: 'telephone', text: 'Telephone' },
-  { id: 'radio', text: 'Radio' },
-  { id: 'alarm-clock', text: 'Alarm Clock' },
-  { id: 'towels', text: 'Towels' },
-  { id: 'linen', text: 'Linen' },
-  { id: 'closet', text: 'Closet' },
-  { id: 'iron', text: 'Iron' },
-  { id: 'sofa', text: 'Sofa' },
-  { id: 'dining-table', text: 'Dining Table' },
-  { id: 'kitchenette', text: 'Kitchenette' },
-  { id: 'kitchenware', text: 'Kitchenware' },
-  { id: 'microwave', text: 'Microwave' },
-  { id: 'refrigerator', text: 'Refrigerator' },
-  { id: 'oven', text: 'Oven' },
-  { id: 'stovetop', text: 'Stovetop' },
-  { id: 'coffee-machine', text: 'Coffee Machine' },
-];
 const hotelFormSchema = z.object({
   name: z
     .string({ required_error: 'Please enter a name.' })
@@ -187,11 +158,9 @@ export default function AddHotelForm() {
     useDropzone({
       onDrop,
       maxFiles: 10,
-      maxSize: 25 * 1024 * 1024,
+      maxSize: 10 * 1024 * 1024,
       accept: {
-        'image/jpeg': [],
-        'image/png': [],
-        'image/webp': [],
+        'image/*': ['.jpg', '.jpeg', '.png'],
       },
     });
   const { mutateAsync: addHotel, isPending } = useMutation({
@@ -503,7 +472,7 @@ export default function AddHotelForm() {
                         'text-muted-foreground': !isDragReject && !(fileRejections.length > 0),
                       })}
                     >
-                      Max size: 25MB, JPG or PNG
+                      Max size: 10MB, JPG or PNG
                     </span>
                   </div>
                   <FormMessage />
