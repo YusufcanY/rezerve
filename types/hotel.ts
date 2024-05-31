@@ -1,9 +1,11 @@
 type Room = {
+  _id: string;
   name: string;
   amenities: string[];
   occupantCount: number;
   price: number;
   squareMeters: number;
+  reservedDates: { from: string; to: string }[];
 };
 type Hotel = {
   _id: string;
@@ -18,6 +20,7 @@ type Hotel = {
   rooms: Room[];
   amenities: string[];
   images: string[];
+  coverImage: string;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -41,7 +44,13 @@ type CreateHotelBody = {
     country: string;
     city: string;
   };
-  rooms: Room[];
+  rooms: {
+    name: string;
+    amenities: string[];
+    occupantCount: number;
+    price: number;
+    squareMeters: number;
+  }[];
 };
 
 type AddImageBody = {
@@ -62,6 +71,11 @@ type CreateReservationBody = {
   };
 };
 type CreateHotelResponse = {
+  success: boolean;
+  hotel: Hotel;
+};
+
+type HotelResponse = {
   success: boolean;
   hotel: Hotel;
 };

@@ -5,7 +5,7 @@ const HotelService = {
     return Axios.get<RandomHotelResponse>('/hotel/random').then((res) => res.data);
   },
   hotel: (id: string) => {
-    return Axios.get('/hotel/' + id).then((res) => res.data);
+    return Axios.get<HotelResponse>('/hotel/' + id).then((res) => res.data);
   },
   search: (body: SearchBody) => {
     return Axios.post<SearchResponse>('/hotel/search', body).then((res) => res.data);

@@ -28,7 +28,7 @@ const amenities = [
   { id: 'wifi', text: 'Wifi', icon: WifiIcon },
   { id: 'tv', text: 'TV', icon: Tv },
   { id: 'fireplace', text: 'Fireplace', icon: FlameKindling },
-  { id: 'spa_wellness', text: 'Spa & Wellness', icon: Flower },
+  { id: 'spa-wellness', text: 'Spa & Wellness', icon: Flower },
   { id: 'air-conditioning', text: 'Air Conditioning', icon: AirVent },
   { id: 'minibar', text: 'Minibar', icon: Snowflake },
   { id: 'balcony', text: 'Balcony' },

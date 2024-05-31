@@ -55,7 +55,7 @@ export default function SearchPage({
         },
         guestCount: filters.adults,
         amenities: [],
-        rating: 5,
+        rating: 1,
       });
     },
     retry: false,
