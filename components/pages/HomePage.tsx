@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
-import Hotel from '@/app/(root)/hotel/[id]/page';
+import Image from 'next/image';
 
 const nearby = [
   {
@@ -226,7 +226,7 @@ export default function HomePage() {
                     className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-primary"
                   >
                     <Link href={`/hotel/${hotel._id}`}>
-                      <img
+                      <Image
                         alt="Hotel Image"
                         className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
                         height={400}
