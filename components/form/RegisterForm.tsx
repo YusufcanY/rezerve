@@ -20,7 +20,7 @@ import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import AuthService from '@/service/auth';
 import useUserStore from '@/store/user';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const RegisterSchema = z.object({
   name: z
@@ -54,6 +54,8 @@ const RegisterSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof RegisterSchema>;
 export default function RegisterForm() {
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get('redirect');
   const router = useRouter();
 
   const { updateUser, updateToken } = useUserStore();
@@ -62,7 +64,21 @@ export default function RegisterForm() {
     onSuccess: (data) => {
       updateUser(data.user);
       updateToken(data.token);
-      router.push('/');
+      if (redirect) {
+        if (redirect === 'booking') {
+          const hotelId = searchParams.get('hotel');
+          const roomId = searchParams.get('room');
+          const from = searchParams.get('from');
+          const to = searchParams.get('to');
+          const adults = searchParams.get('adults');
+          const children = searchParams.get('children');
+          if (hotelId && roomId && from && to && adults && children) {
+            router.push(
+              `/hotel/${hotelId}?room=${roomId}&from=${from}&to=${to}&adults=${adults}&children=${children}#book`,
+            );
+          } else router.push('/');
+        }
+      } else router.push('/');
     },
   });
   const form = useForm<RegisterFormValues>({

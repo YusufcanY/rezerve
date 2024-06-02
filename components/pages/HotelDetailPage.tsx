@@ -42,8 +42,13 @@ import amenities from '@/constants/amenities';
 import Image from 'next/image';
 import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
+import useUserStore from '@/store/user';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function HotelDetailPage({ id }: { id: string }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isUserLoggedIn = useUserStore((state) => state.isUserLoggedIn);
   const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false);
   const [bookDetails, setBookDetails] = useState<{
@@ -92,6 +97,29 @@ export default function HotelDetailPage({ id }: { id: string }) {
     if (isFetched && isSuccess && data.rooms.length === 1)
       setBookDetails((prev) => ({ ...prev, room: data.rooms[0]._id }));
   }, [isFetched]);
+
+  useEffect(() => {
+    const roomId = searchParams.get('room');
+    const from = searchParams.get('from');
+    const to = searchParams.get('to');
+    const adults = searchParams.get('adults');
+    const children = searchParams.get('children');
+    if (roomId) {
+      setBookDetails((prev) => ({ ...prev, room: roomId }));
+    }
+    if (from) {
+      setBookDetails((prev) => ({ ...prev, from: moment(from).toDate() }));
+    }
+    if (to) {
+      setBookDetails((prev) => ({ ...prev, to: moment(to).toDate() }));
+    }
+    if (adults) {
+      setBookDetails((prev) => ({ ...prev, adults: parseInt(adults) }));
+    }
+    if (children) {
+      setBookDetails((prev) => ({ ...prev, children: parseInt(children) }));
+    }
+  }, [searchParams]);
 
   if (isFetching && !isRefetching) return <HotelLoading />;
   if (isError || !data) return <HotelNotFoundPage />;
@@ -212,6 +240,14 @@ export default function HotelDetailPage({ id }: { id: string }) {
                 onSubmit={(e) => {
                   e.preventDefault();
                   if (!bookDetails.to) return toast('Please select a date range');
+                  if (!isUserLoggedIn)
+                    return router.push(
+                      `/register?hotel=${id}&room=${bookDetails.room}&from=${moment(
+                        bookDetails.from,
+                      ).format(
+                        'YYYY-MM-DD',
+                      )}&to=${moment(bookDetails.to).format('YYYY-MM-DD')}&adults=${bookDetails.adults}&children=${bookDetails.children}&redirect=booking`,
+                    );
                   mutate({
                     hotel: id,
                     room: bookDetails.room as string,
