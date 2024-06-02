@@ -43,7 +43,7 @@ export default function HeaderCTA() {
   useEffect(() => {
     if (isFetched) {
       if (isSuccess) {
-        const { user } = data.data;
+        const { user } = data;
         updateUser(user);
       } else {
         reset();

@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
+import Hotel from '@/app/(root)/hotel/[id]/page';
 
 const nearby = [
   {
@@ -41,7 +42,7 @@ const nearby = [
   },
   {
     id: 4,
-    name: 'İzmir',
+    name: 'Izmir',
     distance: 5,
     min_price: 300,
     max_price: 500,
@@ -326,7 +327,7 @@ export default function HomePage() {
                 >
                   <Link
                     className="flex flex-row gap-4"
-                    href={`/search?param=${item.name}, Turkiye`}
+                    href={`/search?param=${item.name}&from=${moment().format('x')}&to=${moment().add(1, 'week').format('x')}&adults=2&children=0`}
                   >
                     <div className="relative h-[124px] w-[124px]">
                       <img
@@ -358,22 +359,21 @@ export default function HomePage() {
             </div>
           </div>
         </section>
-
-        <section className="container mx-auto -mt-12 mb-12">
-          <div className="flex overflow-hidden rounded-xl bg-primary shadow-xl">
-            <img
-              alt="Random Hotel"
-              height={400}
-              src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e7de6b121495337.60c75de17e773.jpg"
-              width={400}
-              style={{ boxShadow: '30px 0px 50px rgba(0, 0, 0, 0.1)' }}
-            />
-            <div className="flex flex-1 flex-col items-center justify-center space-y-4">
-              <h2 className="text-4xl font-bold text-white">Try Random Hotel</h2>
-              <p className="text-lg text-white/75">
-                Sometimes the best trips are unplanned. Get a random hotel to stay in.
-              </p>
-              {isRandomHotelSuccess && (
+        {isRandomHotelSuccess && randomHotel.hotel && (
+          <section className="container mx-auto -mt-12 mb-12">
+            <div className="flex overflow-hidden rounded-xl bg-primary shadow-xl">
+              <img
+                alt="Random Hotel"
+                height={400}
+                src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e7de6b121495337.60c75de17e773.jpg"
+                width={400}
+                style={{ boxShadow: '30px 0px 50px rgba(0, 0, 0, 0.1)' }}
+              />
+              <div className="flex flex-1 flex-col items-center justify-center space-y-4">
+                <h2 className="text-4xl font-bold text-white">Try Random Hotel</h2>
+                <p className="text-lg text-white/75">
+                  Sometimes the best trips are unplanned. Get a random hotel to stay in.
+                </p>
                 <Button
                   size="lg"
                   variant="outline"
@@ -385,10 +385,10 @@ export default function HomePage() {
                     Roll Now
                   </Link>
                 </Button>
-              )}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
       </main>
     </>
   );

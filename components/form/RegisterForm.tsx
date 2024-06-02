@@ -60,8 +60,8 @@ export default function RegisterForm() {
   const { mutate, isPending } = useMutation({
     mutationFn: AuthService.register,
     onSuccess: (data) => {
-      updateUser(data.data.user);
-      updateToken(data.data.token);
+      updateUser(data.user);
+      updateToken(data.token);
       router.push('/');
     },
   });

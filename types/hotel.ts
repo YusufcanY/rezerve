@@ -17,6 +17,7 @@ type Hotel = {
     city: string;
   };
   maxOccupantCount: number;
+  minPrice: number;
   rooms: Room[];
   amenities: string[];
   images: string[];

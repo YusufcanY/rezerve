@@ -44,7 +44,7 @@ export default function SearchPage({
     adults: Number(params.adults),
     children: Number(params.children),
   });
-  const { data, isFetching, isRefetching, isError, refetch } = useQuery({
+  const { data, isFetching, isRefetching, isError } = useQuery({
     queryKey: ['hotel/search', filters],
     queryFn: () => {
       return HotelService.search({
@@ -61,7 +61,7 @@ export default function SearchPage({
     retry: false,
     refetchOnWindowFocus: false,
   });
-  useEffect(() => console.log('data :>> ', data), [data]);
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
       <div className="bg-white">
@@ -264,7 +264,7 @@ export default function SearchPage({
         ) : isError || !data || !(data && data.hotels.length > 0) ? (
           <SearchNotFound />
         ) : (
-          <SearchResults />
+          <SearchResults data={data.hotels} />
         )}
       </div>
     </div>

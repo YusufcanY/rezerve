@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/carousel';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
-import { CalendarCheck, Loader2, Minus, Plus, Sparkles } from 'lucide-react';
+import { CalendarCheck, Check, Loader2, Minus, Plus, Sparkles } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
@@ -41,8 +41,10 @@ import moment from 'moment';
 import amenities from '@/constants/amenities';
 import Image from 'next/image';
 import { toast } from 'sonner';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../ui/dialog';
 
 export default function HotelDetailPage({ id }: { id: string }) {
+  const [isSuccessDialogOpen, setIsSuccessDialogOpen] = useState(false);
   const [isDatePopupOpen, setIsDatePopupOpen] = useState(false);
   const [bookDetails, setBookDetails] = useState<{
     room: string | null;
@@ -73,6 +75,9 @@ export default function HotelDetailPage({ id }: { id: string }) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: HotelService.createReservation,
+    onSuccess: () => {
+      setIsSuccessDialogOpen(true);
+    },
   });
 
   useEffect(() => {
@@ -84,7 +89,6 @@ export default function HotelDetailPage({ id }: { id: string }) {
   }, [isDetailInView, isRoomsInView]);
 
   useEffect(() => {
-    console.log('data :>> ', data);
     if (isFetched && isSuccess && data.rooms.length === 1)
       setBookDetails((prev) => ({ ...prev, room: data.rooms[0]._id }));
   }, [isFetched]);
@@ -143,8 +147,8 @@ export default function HotelDetailPage({ id }: { id: string }) {
               />
             </CarouselItem>
             {data.images.length > 0 &&
-              data.images.map((image) => (
-                <CarouselItem key={image} className="basis-full">
+              data.images.map((image, index) => (
+                <CarouselItem key={index} className="basis-full">
                   <Image
                     alt="Hotel Image"
                     className="aspect-[2/1] object-cover"
@@ -207,6 +211,7 @@ export default function HotelDetailPage({ id }: { id: string }) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
+                  if (!bookDetails.to) return toast('Please select a date range');
                   mutate({
                     hotel: id,
                     room: bookDetails.room as string,
@@ -442,6 +447,22 @@ export default function HotelDetailPage({ id }: { id: string }) {
           ))}
         </div>
       </section>
+      <Dialog open={isSuccessDialogOpen} onOpenChange={setIsSuccessDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Success</DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col items-center justify-center">
+            <div className="grid h-24 w-24 place-content-center rounded-full ring-4 ring-green-500">
+              <Check className="h-16 w-16 text-green-500" />
+            </div>
+            <p className="my-4">Your reservation has been successfully booked.</p>
+            <Button asChild>
+              <Link href="/profile">Go to Profile</Link>
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

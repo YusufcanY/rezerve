@@ -21,7 +21,7 @@ export default async function Search({
     !searchParams.children
   )
     return <SearchError />;
-  const queryClient = new QueryClient();
+  /* const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: [
       'hotel/search',
@@ -34,6 +34,7 @@ export default async function Search({
       },
     ],
     queryFn: () => {
+      console.log('searchParams.param :>> ', searchParams.param);
       return HotelService.search({
         query: typeof searchParams.param === 'string' ? searchParams.param : '',
         dates: {
@@ -46,13 +47,15 @@ export default async function Search({
       });
     },
     retry: false,
-  });
+  }); */
+  {
+    /* <HydrationBoundary state={dehydrate(queryClient)}> 
+  </HydrationBoundary> */
+  }
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Suspense>
-        {/* @ts-ignore */}
-        <SearchPage params={searchParams} />
-      </Suspense>
-    </HydrationBoundary>
+    <Suspense>
+      {/* @ts-ignore */}
+      <SearchPage params={searchParams} />
+    </Suspense>
   );
 }

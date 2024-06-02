@@ -19,6 +19,8 @@ import { useRouter } from 'next/navigation';
 import useUserStore from '@/store/user';
 import { useMutation } from '@tanstack/react-query';
 import AuthService from '@/service/auth';
+import { toast } from 'sonner';
+import { AxiosError } from 'axios';
 
 const LoginSchema = z.object({
   email: z
@@ -48,9 +50,14 @@ export default function LoginForm() {
   const { mutate, isPending } = useMutation({
     mutationFn: AuthService.login,
     onSuccess: (data) => {
-      updateUser(data.data.user);
-      updateToken(data.data.token);
+      updateUser(data.user);
+      updateToken(data.token);
       router.push('/');
+    },
+    onError: (error: AxiosError<LoginError>) => {
+      if (error.response?.status === 401) {
+        toast.error('Invalid email or password');
+      }
     },
   });
   const form = useForm<LoginFormValues>({

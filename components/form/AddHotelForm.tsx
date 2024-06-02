@@ -160,7 +160,8 @@ export default function AddHotelForm() {
       maxFiles: 10,
       maxSize: 10 * 1024 * 1024,
       accept: {
-        'image/*': ['.jpg', '.jpeg', '.png'],
+        'image/jpeg': ['.jpg'],
+        'image/png': ['.png'],
       },
     });
   const { mutateAsync: addHotel, isPending } = useMutation({
