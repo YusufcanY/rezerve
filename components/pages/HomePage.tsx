@@ -208,107 +208,54 @@ export default function HomePage() {
         ></motion.div>
       </section>
       <main>
-        <section className="py-12 md:py-20 lg:py-28">
-          <div className="container px-4 md:px-6">
-            <div className="mx-auto max-w-3xl space-y-4 text-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Popular Hotels
-              </h2>
-              <p className="text-gray-500 dark:text-gray-400 md:text-xl">
-                Discover the best hotels for your next trip.
-              </p>
-            </div>
-            <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
-                <Link className="block" href="/hotel/1">
-                  <img
-                    alt="Hotel Image"
-                    className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
-                    height={400}
-                    src="https://cf.bstatic.com/xdata/images/hotel/max1024x768/469174310.jpg?k=22c5a2d3c07f6be45f2e092a7e3b75c0f2d0bb14286e9ca273e8384d9aaa374a&o=&hp=1"
-                    width={600}
-                  />
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">The St. Regis Rome</h3>
-                      <div className="flex items-center gap-1">
-                        <StarIcon className="h-5 w-5 fill-foreground" />
-                        <span className="text-sm font-medium">4.8</span>
-                      </div>
-                    </div>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400">
-                      Renowned luxury hotel with a lavish spa.
-                    </p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-lg font-bold">$400</span>
-                      <Button size="sm" variant="outline">
-                        Book Now
-                      </Button>
-                    </div>
-                  </div>
-                </Link>
+        {isPopularHotelsSuccess && popularHotels.hotels.length > 0 && (
+          <section className="py-12 md:py-20 lg:py-28">
+            <div className="container px-4 md:px-6">
+              <div className="mx-auto max-w-3xl space-y-4 text-center">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  Popular Hotels
+                </h2>
+                <p className="text-gray-500 dark:text-gray-400 md:text-xl">
+                  Discover the best hotels for your next trip.
+                </p>
               </div>
-              <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
-                <Link className="block" href="/hotel/1">
-                  <img
-                    alt="Hotel Image"
-                    className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
-                    height={400}
-                    src="https://media.cntraveler.com/photos/5c17cdbfbc3f676aee45e9d8/16:9/w_2560,c_limit/The-Ritz-Carlton,-Grand-Cayman__2018_TRC_GRANDCAYMAN_GW_SELECTS-142.jpg"
-                    width={600}
-                  />
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">The Ritz-Carlton, Grand Cayman</h3>
-                      <div className="flex items-center gap-1">
-                        <StarIcon className="h-5 w-5 fill-foreground" />
-                        <span className="text-sm font-medium">4.7</span>
+              <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {popularHotels.hotels.map((hotel) => (
+                  <div
+                    key={hotel._id}
+                    className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-primary"
+                  >
+                    <Link href={`/hotel/${hotel._id}`}>
+                      <img
+                        alt="Hotel Image"
+                        className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
+                        height={400}
+                        src={`${process.env.NEXT_PUBLIC_API}/uploads/${hotel.coverImage}`}
+                        width={600}
+                      />
+                    </Link>
+                    <div className="p-4">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold">{hotel.name}</h3>
+                        <div className="flex items-center gap-1">
+                          <StarIcon className="h-5 w-5 fill-primary stroke-primary" />
+                          <span className="text-sm font-medium">{hotel.rating}</span>
+                        </div>
+                      </div>
+                      <p className="mt-2 truncate text-muted-foreground">{hotel.description}</p>
+                      <div className="mt-4 flex items-center justify-between">
+                        <span className="text-lg font-bold">${hotel.minPrice}</span>
+                        <Button size="sm" variant="outline">
+                          Book Now
+                        </Button>
                       </div>
                     </div>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400">
-                      Luxury resort with a golf course and spa.
-                    </p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-lg font-bold">$600</span>
-                      <Button size="sm" variant="outline">
-                        Book Now
-                      </Button>
-                    </div>
                   </div>
-                </Link>
-              </div>
-              <div className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:border-gray-50">
-                <Link className="block" href="/hotel/1">
-                  <img
-                    alt="Hotel Image"
-                    className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
-                    height={400}
-                    src="https://assets.simpleviewinc.com/simpleview/image/upload/c_fit,w_1440,h_900/crm/miamifl/strMIAXR.1154583_A52B2255-833C-4E74-AF01EAAE6395FAE3_a33ccfff-3b78-43ec-be9e69b604c6e22b.jpg"
-                    width={600}
-                  />
-                  <div className="p-4">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">The St. Regis Bal Harbour Resort</h3>
-                      <div className="flex items-center gap-1">
-                        <StarIcon className="h-5 w-5 fill-foreground" />
-                        <span className="text-sm font-medium">4.9</span>
-                      </div>
-                    </div>
-                    <p className="mt-2 text-gray-500 dark:text-gray-400">
-                      Elegant beachfront resort with a spa.
-                    </p>
-                    <div className="mt-4 flex items-center justify-between">
-                      <span className="text-lg font-bold">$800</span>
-                      <Button size="sm" variant="outline">
-                        Book Now
-                      </Button>
-                    </div>
-                  </div>
-                </Link>
+                ))}
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
         <section className="bg-gray-100 py-12 dark:bg-gray-800 md:py-20 lg:py-28 lg:pb-48">
           <div className="container px-4 md:px-6">
             <div className="mx-auto max-w-3xl space-y-4 text-center">
