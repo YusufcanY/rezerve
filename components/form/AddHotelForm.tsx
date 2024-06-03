@@ -40,7 +40,7 @@ import {
 } from '@/components/ui/dialog';
 import Image from 'next/image';
 import { Tag, TagInput } from 'emblor';
-import { Badge } from '../ui/badge';
+import { Badge } from '@/components/ui/badge';
 import stringSimilarity from 'string-similarity';
 import { useMutation } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
