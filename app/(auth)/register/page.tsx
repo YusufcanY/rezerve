@@ -1,7 +1,8 @@
 import RegisterForm from '@/components/form/RegisterForm';
 import { Separator } from '@/components/ui/separator';
-import { Hotel } from 'lucide-react';
+import { Hotel, Loader2 } from 'lucide-react';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
 export default function Register() {
   return (
@@ -18,7 +19,9 @@ export default function Register() {
           <div className="w-1/2 space-y-2">
             <h1 className="text-center text-2xl font-bold">Register</h1>
             <Separator />
-            <RegisterForm />
+            <Suspense fallback={<Loader2 className="h-16 w-16" />}>
+              <RegisterForm />
+            </Suspense>
           </div>
         </div>
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
