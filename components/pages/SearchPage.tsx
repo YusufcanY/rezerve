@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import {
   ArrowDownAz,
   CalendarIcon,
+  ChevronDown,
   FilterIcon,
   Minus,
   Plus,
@@ -44,6 +45,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useMediaQuery } from '@/hooks/use-media-query';
 
 const SearchSchema = z.object({
   amenities: z.array(z.string()).optional(),
@@ -59,6 +61,7 @@ export default function SearchPage({
 }: {
   params: { param: string; from: string; to: string; adults: string; children: string };
 }) {
+  const isMobile = useMediaQuery('(max-width: 640px)');
   const [filters, setFilters] = useState({
     param: params.param,
     from: moment(Number(params.from)).toDate(),
@@ -68,6 +71,7 @@ export default function SearchPage({
   });
   const [sortOptions, setSortOptions] = useState('rating-desc');
   const [isShowingAllAmenities, setIsShowingAllAmenities] = useState(false);
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
   const [searchParam, setSearchParam] = useState(params.param);
   const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
     from: moment(Number(params.from)).toDate(),
@@ -124,9 +128,9 @@ export default function SearchPage({
                 children: searchGuests.children,
               });
             }}
-            className="flex w-full flex-col items-center gap-1 rounded-lg border border-foreground/25 bg-white p-1 shadow-lg transition-colors duration-200 focus-within:border-primary dark:bg-gray-800 lg:flex-row"
+            className="flex w-full flex-col items-center gap-1 rounded-lg border border-foreground/25 bg-white p-1 shadow-lg transition-colors duration-200 focus-within:border-primary dark:bg-gray-800 sm:flex-row"
           >
-            <div className="relative flex-1">
+            <div className="relative w-full flex-1">
               <Input
                 className="border-0 bg-transparent py-2 pl-10 pr-4 text-gray-900 focus:!ring-0 focus:!ring-offset-0 dark:text-gray-50"
                 placeholder="Search by location, hotel or place name"
@@ -136,13 +140,10 @@ export default function SearchPage({
               />
               <SearchIcon className="absolute left-2 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
             </div>
-            <div className="flex gap-1">
+            <div className="flex w-full gap-1 sm:w-auto">
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button
-                    className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
-                    variant="outline"
-                  >
+                  <Button variant="outline" className="w-full sm:w-auto">
                     <CalendarIcon className="mr-2 h-5 w-5" />
                     <span>
                       {searchDate?.from && searchDate?.to
@@ -166,11 +167,12 @@ export default function SearchPage({
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    className="flex h-10 items-center justify-center rounded-md px-4 text-gray-500 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:bg-gray-700"
                     variant="outline"
+                    className="max-sm:w-full"
+                    size={isMobile ? 'icon' : 'default'}
                   >
                     <UserIcon className="h-5 w-5" />
-                    <span className="ml-2">
+                    <span className="ml-2 hidden sm:block">
                       {searchGuests.adults} adults{' '}
                       {searchGuests.children > 0 && `and ${searchGuests.children} children`}
                     </span>
@@ -231,9 +233,9 @@ export default function SearchPage({
                   </div>
                 </PopoverContent>
               </Popover>
-              <Button type="submit">
-                <SearchIcon className="mr-2 h-5 w-5" />
-                Search
+              <Button type="submit" size={isMobile ? 'icon' : 'default'} className="max-sm:w-full">
+                <SearchIcon className="h-5 w-5" />
+                <span className="ml-2 hidden md:block">Search</span>
               </Button>
             </div>
           </form>
@@ -243,7 +245,7 @@ export default function SearchPage({
         <div className="col-span-2 flex justify-end">
           {/* add sort select */}
           <Select onValueChange={setSortOptions} value={sortOptions}>
-            <SelectTrigger className="w-full max-w-xs">
+            <SelectTrigger className="w-full md:max-w-xs">
               <ArrowDownAz className="mr-2 h-5 w-5" />
               <SelectValue placeholder="Sort" />
             </SelectTrigger>
@@ -254,13 +256,28 @@ export default function SearchPage({
             </SelectContent>
           </Select>
         </div>
-        <div className="col-span-1 rounded-lg bg-white shadow-sm md:col-span-1">
-          <div className="flex items-center border-b px-6 py-4 dark:border-gray-800">
-            <FilterIcon className="mr-2 h-5 w-5" />
-            <h3 className="text-lg font-semibold">Filters</h3>
+        <div className="col-span-2 h-fit rounded-lg bg-white shadow-sm md:col-span-1">
+          <div className="flex items-center justify-between p-4">
+            <div className="flex items-center">
+              <FilterIcon className="mr-2 h-5 w-5" />
+              <h3 className="text-lg font-semibold">Filters</h3>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              onClick={() => setIsFiltersOpen(!isFiltersOpen)}
+            >
+              <ChevronDown className="h-5 w-5" />
+            </Button>
           </div>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(() => refetch())} className="space-y-6 p-6">
+            <form
+              onSubmit={form.handleSubmit(() => refetch())}
+              className={classNames('space-y-6 border-t p-6', {
+                'hidden md:block': !isFiltersOpen,
+              })}
+            >
               <div>
                 <FormField
                   control={form.control}

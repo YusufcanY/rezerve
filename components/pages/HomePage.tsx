@@ -20,32 +20,32 @@ const nearby = [
     id: 1,
     name: 'Balıkesir',
     distance: 3,
-    min_price: 200,
-    max_price: 400,
+    min_price: 10,
+    max_price: 150,
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/ayvalik-51231.webp',
   },
   {
     id: 2,
     name: 'Bursa',
     distance: 2,
-    min_price: 150,
-    max_price: 300,
+    min_price: 50,
+    max_price: 100,
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/bursa-51230.webp',
   },
   {
     id: 3,
     name: 'Çanakkale',
     distance: 4,
-    min_price: 250,
-    max_price: 450,
+    min_price: 20,
+    max_price: 80,
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/canakkale-51229.webp',
   },
   {
     id: 4,
     name: 'Izmir',
     distance: 5,
-    min_price: 300,
-    max_price: 500,
+    min_price: 80,
+    max_price: 170,
     image: 'https://wp.oggusto.com/wp-content/uploads/2022/08/izmir-deniz.jpg',
   },
 ];
@@ -80,7 +80,7 @@ export default function HomePage() {
   return (
     <>
       <section ref={heroRef} className="relative w-full overflow-hidden py-12 md:py-20 lg:py-40">
-        <div className="container relative z-10 px-4 md:px-6">
+        <div className="container relative z-10">
           <div className="mx-auto max-w-3xl space-y-4 text-center">
             <h1 className="text-3xl font-bold tracking-tighter text-gray-50 sm:text-4xl md:text-5xl lg:text-6xl">
               Find your perfect stay
@@ -210,7 +210,7 @@ export default function HomePage() {
       <main>
         {isPopularHotelsSuccess && popularHotels.hotels.length > 0 && (
           <section className="py-12 md:py-20 lg:py-28">
-            <div className="container px-4 md:px-6">
+            <div className="container">
               <div className="mx-auto max-w-3xl space-y-4 text-center">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                   Popular Hotels
@@ -257,7 +257,7 @@ export default function HomePage() {
           </section>
         )}
         <section className="bg-gray-100 py-12 dark:bg-gray-800 md:py-20 lg:py-28 lg:pb-48">
-          <div className="container px-4 md:px-6">
+          <div className="container">
             <div className="mx-auto max-w-3xl space-y-4 text-center">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                 Explore Nearby
@@ -292,7 +292,7 @@ export default function HomePage() {
                       </div>
                       <div className="flex flex-col">
                         <span className="font-bold">
-                          ₺{item.min_price} - ₺{item.max_price}
+                          ${item.min_price} - ${item.max_price}
                           <span className="text-xs text-muted-foreground"> / night</span>
                         </span>
                         <Button size="sm" variant="outline">
@@ -307,18 +307,19 @@ export default function HomePage() {
           </div>
         </section>
         {isRandomHotelSuccess && randomHotel.hotel && (
-          <section className="container mx-auto -mt-12 mb-12">
-            <div className="flex overflow-hidden rounded-xl bg-primary shadow-xl">
+          <section className="container mx-auto -mt-6 mb-12 md:-mt-12">
+            <div className="flex flex-col items-center space-y-4 overflow-hidden rounded-xl bg-primary p-4 shadow-xl lg:flex-row lg:space-y-0 lg:p-0">
               <img
                 alt="Random Hotel"
                 height={400}
                 src="https://mir-s3-cdn-cf.behance.net/project_modules/1400/e7de6b121495337.60c75de17e773.jpg"
                 width={400}
                 style={{ boxShadow: '30px 0px 50px rgba(0, 0, 0, 0.1)' }}
+                className="rounded-lg lg:rounded-none"
               />
               <div className="flex flex-1 flex-col items-center justify-center space-y-4">
-                <h2 className="text-4xl font-bold text-white">Try Random Hotel</h2>
-                <p className="text-lg text-white/75">
+                <h2 className="text-center text-4xl font-bold text-white">Try Random Hotel</h2>
+                <p className="text-center text-lg text-white/75">
                   Sometimes the best trips are unplanned. Get a random hotel to stay in.
                 </p>
                 <Button

@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/carousel';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
-import { CalendarCheck, Check, Loader2, Minus, Plus, Sparkles } from 'lucide-react';
+import { CalendarCheck, Check, HandCoins, Loader2, Minus, Plus, Sparkles } from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -44,6 +44,7 @@ import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import useUserStore from '@/store/user';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 export default function HotelDetailPage({ id }: { id: string }) {
   const router = useRouter();
@@ -489,11 +490,16 @@ export default function HotelDetailPage({ id }: { id: string }) {
           <DialogHeader>
             <DialogTitle>Success</DialogTitle>
           </DialogHeader>
-          <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center space-y-4">
             <div className="grid h-24 w-24 place-content-center rounded-full ring-4 ring-green-500">
               <Check className="h-16 w-16 text-green-500" />
             </div>
-            <p className="my-4">Your reservation has been successfully booked.</p>
+            <p>Your reservation has been successfully booked.</p>
+            <Alert>
+              <HandCoins className="h-6 w-6" />
+              <AlertTitle>About Payment</AlertTitle>
+              <AlertDescription>You&apos;ll pay at the hotel after your stay.</AlertDescription>
+            </Alert>
             <Button asChild>
               <Link href="/profile">Go to Profile</Link>
             </Button>

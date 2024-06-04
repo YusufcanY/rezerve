@@ -27,7 +27,7 @@ export default function RootLayout({
             <Header />
           </div>
           {children}
-          <div className="border-t border-gray-200 pt-8">
+          <div className="mt-8 border-t border-gray-200 pt-8">
             <Footer />
           </div>
           <Toaster />
