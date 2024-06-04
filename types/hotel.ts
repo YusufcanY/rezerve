@@ -36,6 +36,10 @@ type SearchBody = {
   };
   guestCount: number;
   amenities: string[];
+  sort: {
+    minPrice?: 'asc' | 'desc';
+    rating?: 'desc';
+  };
 };
 
 type CreateHotelBody = {

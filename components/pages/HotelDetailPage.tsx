@@ -70,7 +70,7 @@ export default function HotelDetailPage({ id }: { id: string }) {
   const roomsRef = useRef<HTMLDivElement>(null);
   const isRoomsInView = useInView(roomsRef);
 
-  const { data, isFetching, isRefetching, isError, isFetched, isSuccess } = useQuery({
+  const { data, isFetching, isRefetching, isError, isFetched, isSuccess, refetch } = useQuery({
     queryKey: ['hotel/detail', id],
     queryFn: () => HotelService.hotel(id),
     retry: false,
@@ -82,6 +82,7 @@ export default function HotelDetailPage({ id }: { id: string }) {
     mutationFn: HotelService.createReservation,
     onSuccess: () => {
       setIsSuccessDialogOpen(true);
+      refetch();
     },
   });
 

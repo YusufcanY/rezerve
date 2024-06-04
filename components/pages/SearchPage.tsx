@@ -7,6 +7,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import {
+  ArrowDownAz,
   CalendarIcon,
   FilterIcon,
   Minus,
@@ -35,7 +36,14 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import amenities from '@/constants/amenities';
 import classNames from 'classnames';
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 const SearchSchema = z.object({
   amenities: z.array(z.string()).optional(),
@@ -58,6 +66,7 @@ export default function SearchPage({
     adults: Number(params.adults),
     children: Number(params.children),
   });
+  const [sortOptions, setSortOptions] = useState('rating-desc');
   const [isShowingAllAmenities, setIsShowingAllAmenities] = useState(false);
   const [searchParam, setSearchParam] = useState(params.param);
   const [searchDate, setSearchDate] = useState<{ from: Date | undefined; to?: Date } | undefined>({
@@ -77,7 +86,7 @@ export default function SearchPage({
   });
 
   const { data, isFetching, isRefetching, isError, refetch } = useQuery({
-    queryKey: ['hotel/search', filters],
+    queryKey: ['hotel/search', filters, sortOptions],
     queryFn: () => {
       return HotelService.search({
         query: filters.param,
@@ -88,10 +97,16 @@ export default function SearchPage({
         guestCount: filters.adults,
         amenities: form.getValues().amenities || [],
         rating: Number(form.getValues().rating),
+        sort: {
+          ...(sortOptions === 'price-asc' && { minPrice: 'asc' }),
+          ...(sortOptions === 'price-desc' && { minPrice: 'desc' }),
+          ...(sortOptions === 'rating-desc' && { rating: 'desc' }),
+        },
       });
     },
     retry: false,
     refetchOnWindowFocus: false,
+    gcTime: 0,
   });
 
   return (
@@ -224,8 +239,22 @@ export default function SearchPage({
           </form>
         </div>
       </div>
-      <div className="container mx-auto grid grid-cols-1 gap-8 py-8 md:grid-cols-[240px_1fr]">
-        <div className="rounded-lg bg-white shadow-sm dark:bg-gray-900">
+      <div className="container mx-auto grid grid-cols-1 gap-x-8 gap-y-2 py-8 md:grid-cols-[240px_1fr]">
+        <div className="col-span-2 flex justify-end">
+          {/* add sort select */}
+          <Select onValueChange={setSortOptions} value={sortOptions}>
+            <SelectTrigger className="w-full max-w-xs">
+              <ArrowDownAz className="mr-2 h-5 w-5" />
+              <SelectValue placeholder="Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="price-asc">Price (Low to High)</SelectItem>
+              <SelectItem value="price-desc">Price (High to Low)</SelectItem>
+              <SelectItem value="rating-desc">Rating (High to Low)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="col-span-1 rounded-lg bg-white shadow-sm md:col-span-1">
           <div className="flex items-center border-b px-6 py-4 dark:border-gray-800">
             <FilterIcon className="mr-2 h-5 w-5" />
             <h3 className="text-lg font-semibold">Filters</h3>
@@ -314,31 +343,45 @@ export default function SearchPage({
                             <FormControl>
                               <RadioGroupItem value="0" />
                             </FormControl>
-                            <FormLabel className="font-normal">All Ratings</FormLabel>
+                            <FormLabel className="flex gap-2 font-normal">All Ratings</FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
                               <RadioGroupItem value="5" />
                             </FormControl>
-                            <FormLabel className="font-normal">5</FormLabel>
+                            <FormLabel className="flex gap-2 font-normal">
+                              5<StarIcon className="h-4 w-4 fill-primary text-primary opacity-75" />
+                            </FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
                               <RadioGroupItem value="4" />
                             </FormControl>
-                            <FormLabel className="font-normal">4 {'>'}=</FormLabel>
+                            <FormLabel className="flex gap-2 font-normal">
+                              4{' '}
+                              <StarIcon className="h-4 w-4 fill-primary text-primary opacity-75" />{' '}
+                              {'>'}=
+                            </FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
                               <RadioGroupItem value="3" />
                             </FormControl>
-                            <FormLabel className="font-normal">3 {'>'}=</FormLabel>
+                            <FormLabel className="flex gap-2 font-normal">
+                              3{' '}
+                              <StarIcon className="h-4 w-4 fill-primary text-primary opacity-75" />{' '}
+                              {'>'}=
+                            </FormLabel>
                           </FormItem>
                           <FormItem className="flex items-center space-x-3 space-y-0">
                             <FormControl>
                               <RadioGroupItem value="2" />
                             </FormControl>
-                            <FormLabel className="font-normal">2 {'>'}=</FormLabel>
+                            <FormLabel className="flex gap-2 font-normal">
+                              2{' '}
+                              <StarIcon className="h-4 w-4 fill-primary text-primary opacity-75" />{' '}
+                              {'>'}=
+                            </FormLabel>
                           </FormItem>
                         </RadioGroup>
                       </FormControl>
@@ -353,7 +396,7 @@ export default function SearchPage({
             </form>
           </Form>
         </div>
-        {isFetching && isRefetching ? (
+        {isFetching || isRefetching ? (
           <SearchLoading />
         ) : isError || !data || !(data && data.hotels.length > 0) ? (
           <SearchNotFound />
