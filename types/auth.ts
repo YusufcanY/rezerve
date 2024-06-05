@@ -35,6 +35,10 @@ type LoginError = {
   success: boolean;
   error: string;
 };
+type RegisterError = {
+  success: boolean;
+  error: string;
+};
 
 type RegisterResponse = {
   success: boolean;

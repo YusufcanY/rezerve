@@ -62,7 +62,9 @@ const hotelFormSchema = z.object({
     .array(
       z.object({
         name: z.string().min(1, { message: 'Please enter a name' }),
-        price: z.number().min(1, { message: 'Please enter a valid price.' }),
+        price: z.number().min(1, { message: 'Please enter a valid price.' }).max(10000, {
+          message: 'Price should be less than $10,000.00',
+        }),
         occupantCount: z.number().min(1, { message: 'Please enter a valid occupant count.' }),
         squareMeters: z.number().min(1, { message: 'Please enter a valid square meters.' }),
         amenities: z
@@ -86,19 +88,30 @@ const hotelFormSchema = z.object({
 });
 
 const roomFormSchema = z.object({
-  name: z.string({ required_error: 'Please enter a name' }),
+  name: z
+    .string({ required_error: 'Please enter a name' })
+    .min(1, {
+      message: 'Please enter a name',
+    })
+    .max(50, { message: 'Name should be less than 50 characters.' }),
   price: z.coerce
     .number({
       required_error: 'Please enter a price',
       invalid_type_error: 'Please enter a valid price',
     })
-    .min(1, { message: 'Please enter a valid price.' }),
+    .min(1, { message: 'Please enter a valid price.' })
+    .max(10000, {
+      message: 'Price should be less than $10,000.00',
+    }),
   occupantCount: z.coerce
     .number({
       required_error: 'Please enter a max guest count',
       invalid_type_error: 'Please enter a max guest count',
     })
-    .min(1, { message: 'Please enter a valid occupant count.' }),
+    .min(1, { message: 'Please enter a valid occupant count.' })
+    .max(12, {
+      message: 'Guest count should be less than or equal to 12',
+    }),
   squareMeters: z.coerce
     .number({
       required_error: 'Please enter a square meter',

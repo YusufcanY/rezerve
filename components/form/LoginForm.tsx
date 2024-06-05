@@ -55,7 +55,7 @@ export default function LoginForm() {
       router.push('/');
     },
     onError: (error: AxiosError<LoginError>) => {
-      if (error.response?.status === 401) {
+      if (error.response?.status === 400) {
         toast.error('Invalid email or password');
       }
     },

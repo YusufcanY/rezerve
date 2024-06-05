@@ -185,23 +185,25 @@ export default function SearchPage({
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() =>
-                          searchGuests.adults < 12 &&
-                          setSearchGuests((prev) => ({ ...prev, adults: prev.adults + 1 }))
-                        }
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                      <span className="text-2xl font-semibold">{searchGuests.adults}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
+                        disabled={searchGuests.adults === 1}
                         onClick={() =>
                           searchGuests.adults > 0 &&
                           setSearchGuests((prev) => ({ ...prev, adults: prev.adults - 1 }))
                         }
                       >
                         <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-2xl font-semibold">{searchGuests.adults}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        disabled={searchGuests.adults === 12}
+                        onClick={() =>
+                          searchGuests.adults < 12 &&
+                          setSearchGuests((prev) => ({ ...prev, adults: prev.adults + 1 }))
+                        }
+                      >
+                        <Plus className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
@@ -211,23 +213,25 @@ export default function SearchPage({
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() =>
-                          searchGuests.children < 12 &&
-                          setSearchGuests((prev) => ({ ...prev, children: prev.children + 1 }))
-                        }
-                      >
-                        <Plus className="h-4 w-4" />
-                      </Button>
-                      <span className="text-2xl font-semibold">{searchGuests.children}</span>
-                      <Button
-                        variant="ghost"
-                        size="icon"
+                        disabled={searchGuests.children === 0}
                         onClick={() =>
                           searchGuests.children > 0 &&
                           setSearchGuests((prev) => ({ ...prev, children: prev.children - 1 }))
                         }
                       >
                         <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-2xl font-semibold">{searchGuests.children}</span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        disabled={searchGuests.children === 12}
+                        onClick={() =>
+                          searchGuests.children < 12 &&
+                          setSearchGuests((prev) => ({ ...prev, children: prev.children + 1 }))
+                        }
+                      >
+                        <Plus className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>

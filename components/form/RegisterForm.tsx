@@ -21,6 +21,8 @@ import { useMutation } from '@tanstack/react-query';
 import AuthService from '@/service/auth';
 import useUserStore from '@/store/user';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 const RegisterSchema = z.object({
   name: z
@@ -79,6 +81,11 @@ export default function RegisterForm() {
           } else router.push('/');
         }
       } else router.push('/');
+    },
+    onError: (error: AxiosError<RegisterError>) => {
+      if (error.response?.status === 400) {
+        toast.error(error.response.data.error);
+      }
     },
   });
   const form = useForm<RegisterFormValues>({

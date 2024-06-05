@@ -9,7 +9,16 @@ import {
 } from '@/components/ui/carousel';
 import { Tooltip, TooltipProvider, TooltipTrigger, TooltipContent } from '@/components/ui/tooltip';
 import { Button } from '@/components/ui/button';
-import { CalendarCheck, Check, HandCoins, Loader2, Minus, Plus, Sparkles } from 'lucide-react';
+import {
+  CalendarCheck,
+  Check,
+  HandCoins,
+  Loader2,
+  MapPin,
+  Minus,
+  Plus,
+  Sparkles,
+} from 'lucide-react';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -83,6 +92,7 @@ export default function HotelDetailPage({ id }: { id: string }) {
   const { mutate, isPending } = useMutation({
     mutationFn: HotelService.createReservation,
     onSuccess: () => {
+      setBookDetails({ room: null, from: undefined, to: undefined, adults: 2, children: 0 });
       setIsSuccessDialogOpen(true);
       refetch();
     },
@@ -244,7 +254,13 @@ export default function HotelDetailPage({ id }: { id: string }) {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                  if (!bookDetails.to) return toast('Please select a date range');
+                  if (!bookDetails.to) return toast.error('Please select a date range');
+                  const room = data.rooms.find((i) => i._id === bookDetails.room)!;
+                  if (bookDetails.adults > room.occupantCount)
+                    return toast.error(
+                      'Too many occupants for this room. Max occupant count for this room: ' +
+                        room.occupantCount,
+                    );
                   if (!isUserLoggedIn)
                     return router.push(
                       `/register?hotel=${id}&room=${bookDetails.room}&from=${moment(
@@ -502,6 +518,13 @@ export default function HotelDetailPage({ id }: { id: string }) {
               <HandCoins className="h-6 w-6" />
               <AlertTitle>About Payment</AlertTitle>
               <AlertDescription>You&apos;ll pay at the hotel after your stay.</AlertDescription>
+            </Alert>
+            <Alert>
+              <MapPin className="h-6 w-6" />
+              <AlertTitle>Location</AlertTitle>
+              <AlertDescription>
+                You&apos;ll get the location details and other information in your email.
+              </AlertDescription>
             </Alert>
             <Button asChild>
               <Link href="/profile">Go to Profile</Link>
