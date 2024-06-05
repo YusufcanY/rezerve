@@ -244,6 +244,9 @@ export default function HomePage() {
                           <span className="text-sm font-medium">{hotel.rating}</span>
                         </div>
                       </div>
+                      <span className="text-sm text-muted-foreground">
+                        {hotel.location.city}, {hotel.location.country}
+                      </span>
                       <p className="mt-2 truncate text-muted-foreground">{hotel.description}</p>
                       <div className="mt-4 flex items-center justify-between">
                         <span className="text-lg font-bold">${hotel.minPrice}</span>
