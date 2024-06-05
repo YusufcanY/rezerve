@@ -14,8 +14,17 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import HotelService from '@/service/hotel';
 import Image from 'next/image';
+import ImageWithFallback from '../ImageWithFallback';
 
 const nearby = [
+  {
+    id: 3,
+    name: 'Istanbul',
+    distance: 1,
+    min_price: 20,
+    max_price: 80,
+    image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/istanbul-51229.webp',
+  },
   {
     id: 1,
     name: 'Balıkesir',
@@ -31,14 +40,6 @@ const nearby = [
     min_price: 50,
     max_price: 100,
     image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/bursa-51230.webp',
-  },
-  {
-    id: 3,
-    name: 'Çanakkale',
-    distance: 4,
-    min_price: 20,
-    max_price: 80,
-    image: 'https://cdn2.enuygun.com/media/lib/500x300/uploads/image/canakkale-51229.webp',
   },
   {
     id: 4,
@@ -226,11 +227,12 @@ export default function HomePage() {
                     className="group rounded-lg border border-gray-200 bg-white shadow-lg transition-all hover:border-primary"
                   >
                     <Link href={`/hotel/${hotel._id}`}>
-                      <Image
+                      <ImageWithFallback
                         alt="Hotel Image"
                         className="aspect-[3/2] w-full rounded-t-lg object-cover transition-all group-hover:scale-105"
                         height={400}
                         src={`${process.env.NEXT_PUBLIC_API}/uploads/${hotel.coverImage}`}
+                        fallback="/placeholder.svg"
                         width={600}
                       />
                     </Link>
