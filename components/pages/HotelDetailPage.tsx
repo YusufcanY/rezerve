@@ -45,6 +45,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import useUserStore from '@/store/user';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import ImageWithFallback from '../ImageWithFallback';
 
 export default function HotelDetailPage({ id }: { id: string }) {
   const router = useRouter();
@@ -164,7 +165,7 @@ export default function HotelDetailPage({ id }: { id: string }) {
         <Carousel className="w-full">
           <CarouselContent>
             <CarouselItem className="basis-full">
-              <Image
+              <ImageWithFallback
                 alt="Hotel Cover"
                 className="aspect-[2/1] object-cover"
                 height={1336 / 2}
@@ -173,18 +174,20 @@ export default function HotelDetailPage({ id }: { id: string }) {
                     `${process.env.NEXT_PUBLIC_API}/uploads/${data.coverImage}`) ||
                   '/placeholder.svg'
                 }
+                fallback={'/placeholder.svg'}
                 width={1336}
               />
             </CarouselItem>
             {data.images.length > 0 &&
               data.images.map((image, index) => (
                 <CarouselItem key={index} className="basis-full">
-                  <Image
+                  <ImageWithFallback
                     alt="Hotel Image"
                     className="aspect-[2/1] object-cover"
                     height={1336 / 2}
                     src={`${process.env.NEXT_PUBLIC_API}/uploads/${image}`}
                     width={1336}
+                    fallback={'/placeholder.svg'}
                   />
                 </CarouselItem>
               ))}
