@@ -8,6 +8,11 @@ const nextConfig = {
         port: '8000',
         pathname: '/uploads/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'rezerve-be-production.up.railway.app',
+        pathname: '/uploads/**',
+      },
     ],
   },
 };
