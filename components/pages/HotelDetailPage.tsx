@@ -202,8 +202,8 @@ export default function HotelDetailPage({ id }: { id: string }) {
                 </CarouselItem>
               ))}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
+          <CarouselPrevious className="max-md:left-2" />
+          <CarouselNext className="max-md:right-2" />
         </Carousel>
       </div>
       <div className="sticky top-0 z-10 flex w-full justify-center bg-gradient-to-b from-white to-transparent pt-2">
@@ -224,20 +224,23 @@ export default function HotelDetailPage({ id }: { id: string }) {
       </div>
 
       <section className="mt-8 grid gap-8 md:grid-cols-6">
-        <div className="col-span-4">
+        <div className="md:col-span-4">
           <h2 ref={detailRef} id="details" className="text-3xl font-bold">
             Details
           </h2>
           <p className="mt-2 text-gray-500">{data.description}</p>
           <span className="text-sm text-muted-foreground">{data.maxOccupantCount} guests</span>
-          <div className="mt-6 grid grid-cols-3 gap-2">
-            <div className="col-span-3">
+          <div className="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-2">
+            <div className="col-span-2 md:col-span-3">
               <h5 className="text-lg font-medium">Amenities</h5>
             </div>
             {data.amenities.map((amenity) => {
               const amenityData = amenities.find((a) => a.id === amenity);
               return (
-                <div key={amenityData?.id || amenity} className="flex items-center gap-2">
+                <div
+                  key={amenityData?.id || amenity}
+                  className="flex items-center gap-2 text-sm md:text-base"
+                >
                   {amenityData?.icon && <amenityData.icon className="h-6 w-6 text-gray-500" />}
                   <span>{amenityData?.text || amenity}</span>
                 </div>
@@ -245,7 +248,7 @@ export default function HotelDetailPage({ id }: { id: string }) {
             })}
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="md:col-span-2">
           <Card id="book">
             <CardHeader>
               <CardTitle>Book Your Stay</CardTitle>
