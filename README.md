@@ -8,7 +8,7 @@ Simply Rezerve is a hotel reservation website. You can add your hotel listing, s
 
 ---
 
-### Techs
+### Frontend Techs
 - Next.js 14 (App Router)
 - Typescript
 - TailwindCSS
