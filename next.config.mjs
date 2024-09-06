@@ -10,7 +10,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'rezerve-be-production.up.railway.app',
+        hostname: 'rezerve-backend.onrender.com',
         pathname: '/uploads/**',
       },
     ],
